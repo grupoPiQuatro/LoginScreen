@@ -1,12 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.loginscreen;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
- * @author Rainha Katarine I
+ * @author MonitotMind
  */
 public class login extends javax.swing.JFrame {
 
@@ -127,7 +127,7 @@ public class login extends javax.swing.JFrame {
                 jLabelPasswordIconHideMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabelPasswordIconHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 40, 35));
+        jPanel2.add(jLabelPasswordIconHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 40, 35));
 
         jLabelPasswordIconShow.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPasswordIconShow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -223,20 +223,35 @@ public class login extends javax.swing.JFrame {
         }else{
             erroLogin();
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void consultaBanco(){
-        textAlert.setText("Login realizado (teoricamente)");
+        String login = iptLogin.getText();
+        String senha = iptSenha.getText();
+        
+        Conection conect = new Conection();
+        
+        JdbcTemplate con = conect.getConnection();
+        
+        List<UserLogin> user = new ArrayList();
+        
+        user = con.query(String.format("select * from usuario where email = '%s' and senha = '%s'",login, senha ), new BeanPropertyRowMapper(UserLogin.class));
+        Integer sizeUser = user.size();
+        
+        if (sizeUser > 0) {
+            textAlert.setText("Usuario encontrado");
+        }else{
+            textAlert.setText("Usuario não encontrado");
+        }
     }
     
     private Boolean verificaCampos(){
         String login = iptLogin.getText();
         String senha = iptSenha.getText();
         
-        if ("".equals(login)){
-            erroLogin();
-        }
-        if ("".equals(senha)){
+        if ("".equals(login) || "".equals(senha)){
+            textAlert.setText("Você tem campos a serem preenchidos");
             return false;
         }
         return true;
@@ -284,6 +299,7 @@ public class login extends javax.swing.JFrame {
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField iptLogin;
     private javax.swing.JPasswordField iptSenha;
