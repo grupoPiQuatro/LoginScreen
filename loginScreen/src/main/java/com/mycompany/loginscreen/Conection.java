@@ -15,13 +15,13 @@ public class Conection {
     public Conection(){
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource​.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource​.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        dataSource​.setUrl("jdbc:mysql://localhost/sprint");
+        dataSource​.setUrl("jdbc:mysql://localhost/MonitorMind");
 
-        dataSource​.setUsername("root");
+        dataSource​.setUsername("MonitorMind");
 
-        dataSource​.setPassword("1234abc@");
+        dataSource​.setPassword("monitormind");
 
         this.connection = new JdbcTemplate(dataSource);
     }

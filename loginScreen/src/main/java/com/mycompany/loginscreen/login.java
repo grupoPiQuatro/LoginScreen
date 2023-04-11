@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import java.net.URL;
 
 /**
  *
@@ -53,7 +54,9 @@ public class login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jLabelImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 38, 500, 320));
+
+        jLabelImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/login.png"))); // NOI18N
+        jPanel1.add(jLabelImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 500, 320));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 440));
 
@@ -76,7 +79,7 @@ public class login extends javax.swing.JFrame {
         iptSenha.setBorder(null);
         iptSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iptSenhaActionPerformed(evt);
+                none(evt);
             }
         });
         jPanel2.add(iptSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 260, 20));
@@ -117,20 +120,23 @@ public class login extends javax.swing.JFrame {
 
         jLabelUserIcon.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelUserIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons8_user_20px_1.png"))); // NOI18N
         jPanel2.add(jLabelUserIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, 40, 35));
 
         jLabelPasswordIconHide.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPasswordIconHide.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelPasswordIconHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons8_invisible_20px_1.png"))); // NOI18N
         jLabelPasswordIconHide.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelPasswordIconHide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelPasswordIconHideMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabelPasswordIconHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 40, 35));
+        jPanel2.add(jLabelPasswordIconHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 40, 35));
 
         jLabelPasswordIconShow.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPasswordIconShow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelPasswordIconShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons8_eye_20px_1.png"))); // NOI18N
         jLabelPasswordIconShow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelPasswordIconShow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -160,11 +166,12 @@ public class login extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(91, 327, 220, 40));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 220, 40));
 
         textAlert.setBackground(new java.awt.Color(25, 118, 211));
         textAlert.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         textAlert.setForeground(new java.awt.Color(255, 255, 255));
+        textAlert.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textAlert.setBorder(null);
         textAlert.setCaretColor(new java.awt.Color(25, 118, 211));
         textAlert.addActionListener(new java.awt.event.ActionListener() {
@@ -172,12 +179,16 @@ public class login extends javax.swing.JFrame {
                 textAlertActionPerformed(evt);
             }
         });
-        jPanel2.add(textAlert, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 200, 30));
+        jPanel2.add(textAlert, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 200, 30));
 
         iptSenha1.setBackground(new java.awt.Color(25, 118, 211));
         iptSenha1.setForeground(new java.awt.Color(255, 255, 255));
-        iptSenha1.setText("liuc");
         iptSenha1.setBorder(null);
+        iptSenha1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iptSenha1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(iptSenha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 260, 20));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 420, 440));
@@ -257,9 +268,13 @@ public class login extends javax.swing.JFrame {
         return true;
     }
     
-    private void iptSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptSenhaActionPerformed
+    private void none(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_none
         // TODO add your handling code here:
-    }//GEN-LAST:event_iptSenhaActionPerformed
+    }//GEN-LAST:event_none
+
+    private void iptSenha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptSenha1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_iptSenha1ActionPerformed
     
     private void erroLogin(){
         textAlert.setText("Login ou senha invalidos");
