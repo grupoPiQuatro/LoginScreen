@@ -1,20 +1,24 @@
 package com.mycompany.loginscreen;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import java.net.URL;
+
 
 /**
  *
  * @author MonitotMind
  */
-public class login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form login
      */
-    public login() {
+    public Login() {
         initComponents();
         iptLogin.setBackground(new java.awt.Color(0,0,0,1));
         iptSenha.setBackground(new java.awt.Color(0,0,0,1));
@@ -230,14 +234,18 @@ public class login extends javax.swing.JFrame {
         Boolean verify = verificaCampos();
         
         if (verify){
-            consultaBanco();
+            try {
+                consultaBanco();
+            } catch (IOException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             erroLogin();
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    private void consultaBanco(){
+    private void consultaBanco() throws IOException{
         String login = iptLogin.getText();
         String senha = iptSenha.getText();
         
@@ -251,9 +259,14 @@ public class login extends javax.swing.JFrame {
         Integer sizeUser = user.size();
         
         if (sizeUser > 0) {
-            textAlert.setText("Usuario encontrado");
+//            textAlert.setText("Usuário encontrado");
+            Looca looca = new Looca();
+            this.dispose();
+            looca.setVisible(true);
+           
         }else{
-            textAlert.setText("Usuario não encontrado");
+//            textAlert.setText("Usuario não encontrado");
+            JOptionPane.showMessageDialog(this, "Email ou senha incorreto!");
         }
     }
     
@@ -296,20 +309,21 @@ public class login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new login().setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }
