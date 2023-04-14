@@ -37,10 +37,10 @@ public class Looca extends javax.swing.JFrame {
         // DESCOMENTE ESSE CÓDIGO PARA TESTAR O CÓDIGO MAIS DE UMA VEZ NA MESMA MÁQUINA, POIS ELE GERA IDS DIFERENTES
         // SE AS DUAS LINHAS ABAIXO ESTIVEREM COMENTADAS A LINHA SEGUINTE DEVE ESTAR DESCOMENTADA
         
-        Integer numeroAleatorio = ThreadLocalRandom.current().nextInt(1, 10001);
-        numeroSerial = String.valueOf(numeroAleatorio);
+//        Integer numeroAleatorio = ThreadLocalRandom.current().nextInt(1, 10001);
+//        numeroSerial = String.valueOf(numeroAleatorio);
         
-//        numeroSerial = infoPc.numeroSerial();
+        numeroSerial = infoPc.numeroSerial();
         
         String so = infoPc.sistemaOperacional();
         String nomeCpu = infoPc.nomeCPU().trim();
