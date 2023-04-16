@@ -11,10 +11,15 @@ package com.mycompany.loginscreen;
 public class UserLogin {
     private String login;
     private String senha;
+    private String fkEmpresa;
     
-    public UserLogin(){
+    public UserLogin(String login, String senha, String fkEmpresa){
         this.login = login;
         this.senha = senha;
+        this.fkEmpresa = fkEmpresa;
+    }
+    
+    public UserLogin() {
     }
 
     public String getLogin() {
@@ -31,6 +36,14 @@ public class UserLogin {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getFkEmpresa() {
+        return fkEmpresa;
+    }
+
+    public void setFkEmpresa(String fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
     }
     
     

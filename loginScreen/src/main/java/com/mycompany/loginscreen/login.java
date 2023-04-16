@@ -240,10 +240,23 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            erroLogin();
+            JOptionPane.showMessageDialog(this, "Email ou senha vazios");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private Boolean verificaCampos(){
+        String login = iptLogin.getText();
+        String senha = iptSenha.getText();
+        
+        if ("".equals(login) || "".equals(senha)){
+            JOptionPane.showMessageDialog(this, "Você tem campos a serem preenchidos");
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     private void consultaBanco() throws IOException{
         String login = iptLogin.getText();
@@ -255,12 +268,14 @@ public class Login extends javax.swing.JFrame {
         
         List<UserLogin> user = new ArrayList();
         
-        user = con.query(String.format("select * from usuario where email = '%s' and senha = '%s'",login, senha ), new BeanPropertyRowMapper(UserLogin.class));
+        user = con.query(String.format("select * from usuario where email = '%s' and senha = '%s'", login, senha ), 
+                new BeanPropertyRowMapper(UserLogin.class));
         Integer sizeUser = user.size();
         
         if (sizeUser > 0) {
 //            textAlert.setText("Usuário encontrado");
-            Looca looca = new Looca();
+            Looca looca = new Looca(user);
+           
             this.dispose();
             looca.setVisible(true);
            
@@ -270,16 +285,7 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
-    private Boolean verificaCampos(){
-        String login = iptLogin.getText();
-        String senha = iptSenha.getText();
-        
-        if ("".equals(login) || "".equals(senha)){
-            textAlert.setText("Você tem campos a serem preenchidos");
-            return false;
-        }
-        return true;
-    }
+    
     
     private void none(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_none
         // TODO add your handling code here:
@@ -289,9 +295,6 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_iptSenha1ActionPerformed
     
-    private void erroLogin(){
-        textAlert.setText("Login ou senha invalidos");
-    }
     /**
      * @param args the command line arguments
      */

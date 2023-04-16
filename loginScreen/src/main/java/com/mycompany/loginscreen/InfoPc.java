@@ -43,10 +43,17 @@ public class InfoPc {
         return looca.getSistema().getSistemaOperacional();
     }
     
+    Double frequenciaCpu() {
+        Long freqReal = looca.getProcessador().getFrequencia();
+        
+        Double freqConvertida = (double) freqReal / 1000000000;
+        
+        return Math.round(freqConvertida * Math.pow(10, 1)) / Math.pow(10, 1);
+    }
+    
     String nomeCPU() {
         return looca.getProcessador().getNome();
     }
-    
     
     Integer nucleoFisico() {
         return looca.getProcessador().getNumeroCpusFisicas();
@@ -56,12 +63,21 @@ public class InfoPc {
         return looca.getProcessador().getNumeroCpusLogicas();
     }
     
-    Long qtdRam() {
+    Double qtdRam() {
         Long qtdRamBytes = looca.getMemoria().getTotal();
-        return qtdRamBytes / (1024 * 1024 * 1024);
+        Long ramReal = qtdRamBytes / (1024 * 1024 * 1024); 
+        Integer ramIdeal = null;
+        
+        if (ramReal < 4) {
+            return 4.0;
+        } else if (ramReal < 8) {
+            return 8.0;
+        } else {
+            return 16.0;
+        } 
     }
     
-    Long qtdArmazenamento() {
+    Double qtdArmazenamento() {
         Long qtdArmazenamentoBytes = null;
        
         List<Volume> volumeDisco = looca.getGrupoDeDiscos().getVolumes();
@@ -69,7 +85,15 @@ public class InfoPc {
             qtdArmazenamentoBytes = discoVolume.getTotal();
         }
         
-        return qtdArmazenamentoBytes / (1024 * 1024 * 1024);
+        Long valorReal = qtdArmazenamentoBytes / (1024 * 1024 * 1024);
+        
+        if (valorReal < 256) {
+            return 256.0;
+        } else if (valorReal < 512) {
+            return 512.0;
+        } else {
+            return 1024.0;
+        }
     }
     
     String tipoDisco() throws IOException {
@@ -80,9 +104,9 @@ public class InfoPc {
         String line = reader.readLine();
 
         if (line.contains("SSD") && line.length() > 0) {
-            return "SSD";
+            return "ssd";
         } else {
-            return "HD";
+            return "hd";
         }
     }
 }
