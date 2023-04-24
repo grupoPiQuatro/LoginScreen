@@ -1,5 +1,6 @@
 com\mycompany\loginscreen\Login.class
 com\mycompany\loginscreen\UserLogin.class
+com\mycompany\loginscreen\Localizacao.class
 com\mycompany\loginscreen\Login$1.class
 com\mycompany\loginscreen\Looca$2.class
 com\mycompany\loginscreen\Login$7.class
