@@ -15,19 +15,28 @@ public class Conection {
     public Conection(){
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource​.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource​.setUrl("jdbc:mysql://localhost/MonitorMind");
+        dataSource​.setUrl("jdbc:sqlserver://servidor-monitor-mind.database.windows.net:1433;"
+                + "database=bd-monitor-mind;"
+                + "user=admin-monitor-mind@servidor-monitor-mind;"
+                + "password=#Gfgrupo4;"
+                + "encrypt=true;trustServerCertificate=false;"
+                + "hostNameInCertificate=*.database.windows.net;"
+                + "loginTimeout=30;");
 
-        dataSource​.setUsername("root");
+        dataSource​.setUsername("admin-monitor-mind");
 
-        dataSource​.setPassword("#Gf44659454851");
+        dataSource​.setPassword("#Gfgrupo4");
 
         this.connection = new JdbcTemplate(dataSource);
     }
 
     public JdbcTemplate getConnection() {
         return connection;
+    }
+    public static void main(String[] args) {
+        
     }
 }
 

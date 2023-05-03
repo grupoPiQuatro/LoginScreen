@@ -189,7 +189,7 @@ public class Looca extends javax.swing.JFrame {
                 setor
         );
 
-        List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc limit 1",
+        List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
 
         Integer fkLocalizacao = null;
