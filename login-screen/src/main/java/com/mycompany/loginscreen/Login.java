@@ -109,12 +109,12 @@ public class Login extends javax.swing.JFrame {
         jLabelSubtitle.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelSubtitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelSubtitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelSubtitle.setText("Olá, vamos iniciar !!");
+        jLabelSubtitle.setText("Olá, vamos iniciar!");
         jPanel2.add(jLabelSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 101, 423, -1));
 
         jLabelUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabelUser.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelUser.setText("Usuario");
+        jLabelUser.setText("Usuário");
         jPanel2.add(jLabelUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
 
         jLabelPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N

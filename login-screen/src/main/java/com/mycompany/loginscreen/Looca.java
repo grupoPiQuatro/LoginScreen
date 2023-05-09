@@ -217,7 +217,7 @@ public class Looca extends javax.swing.JFrame {
         localidadeInput.setVisible(false);
         localidadeInput2.setVisible(false);
         btnConfirmar.setVisible(false);
-        mensagemPc.setText("Computador cadastrado!!");
+        mensagemPc.setText("Computador cadastrado!");
     }
 
     /**
