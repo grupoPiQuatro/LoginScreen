@@ -9,28 +9,39 @@ package com.mycompany.loginscreen;
  * @author Nathan David
  */
 public class Computador {
-    private String serialComputador;
+    private String hostName;
     private String sistemaOperacional;
-    private String status;
+    private String status; 
+    private String mac;
+
     
-    public Computador(String serialComputador, String sistemaOperacional, String status) {
-        this.serialComputador = serialComputador;
+    public Computador(String hostName, String sistemaOperacional, String status,String mac) {
+        this.hostName = hostName;
         this.sistemaOperacional = sistemaOperacional;
         this.status = status;
+        this.mac = mac;
     }
     
     public Computador() {
         
     }
 
-    public String getSerialComputador() {
-        return serialComputador;
+    public String getMac() {
+        return mac;
     }
 
-    public void setSerialComputador(String serialComputador) {
-        this.serialComputador = serialComputador;
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+    
     public String getSistemaOperacional() {
         return sistemaOperacional;
     }

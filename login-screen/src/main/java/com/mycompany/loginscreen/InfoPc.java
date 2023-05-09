@@ -6,6 +6,7 @@ package com.mycompany.loginscreen;
 
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Volume;
+import com.github.britooo.looca.api.group.rede.RedeInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,30 +24,44 @@ public class InfoPc {
         this.looca = new Looca();
     }
     
-    String numeroSerial() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("wmic bios get serialnumber").getInputStream()));
-        String line;
-        
-        while ((line = reader.readLine()) != null) {
-            if (!line.startsWith("SerialNumber") && line.length() > 0) {
-                return line.trim();
-            }
-        }
-        
-        return null;        
+//    String numeroSerial() throws IOException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("wmic bios get serialnumber").getInputStream()));
+//        String line;
+//        
+//        while ((line = reader.readLine()) != null) {
+//            if (!line.startsWith("SerialNumber") && line.length() > 0) {
+//                return line.trim();
+//            }
+//        }
+//        
+//        return null;        
+//    }
+//    
+//    String numeroSerialLinux() throws IOException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("sudo dmidecode -s system-serial-number").getInputStream()));
+//        String line;
+//        String serial = null;
+//        if(reader.readLine() == null){
+//            serial ="temporario";
+//        }else{
+//            serial = reader.readLine();
+//        }
+//        
+//        return serial;
+//    }
+    
+    String hostName(){
+        return looca.getRede().getParametros().getHostName();
     }
     
-    String numeroSerialLinux() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("sudo dmidecode -s system-serial-number").getInputStream()));
-        String line;
-        String serial = null;
-        if(reader.readLine() == null){
-            serial ="temporario";
-        }else{
-            serial = reader.readLine();
+    String mac(){
+        List<RedeInterface> redes  = looca.getRede().getGrupoDeInterfaces().getInterfaces();
+        
+        for (RedeInterface mac : redes) {
+            return mac.getEnderecoMac();
         }
         
-        return serial;
+        return null;
     }
  
     String sistemaOperacional() {

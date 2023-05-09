@@ -51,17 +51,19 @@ public class Looca extends javax.swing.JFrame {
         InfoPc infoPc = new InfoPc();
         JdbcTemplate con = conexao.getConnection();
 
-        String numeroSerial = null;
+//        String numeroSerial = null;
         String so = infoPc.sistemaOperacional();
-         if (so.equalsIgnoreCase("Windows")) {
-             numeroSerial = infoPc.numeroSerial();
-         } else {
-             numeroSerial = infoPc.numeroSerialLinux();
-         }
+//         if (so.equalsIgnoreCase("Windows")) {
+//             numeroSerial = infoPc.numeroSerial();
+//         } else {
+//             numeroSerial = infoPc.numeroSerialLinux();
+//         }
         
-        List<Computador> listaComputador = con.query("select serialComputador,"
-                + " sistemaOperacional, status from Computador where serialComputador = ?;",
-                new BeanPropertyRowMapper(Computador.class), numeroSerial);
+        String hostName = infoPc.hostName();
+
+        List<Computador> listaComputador = con.query("select hostname,"
+                + " sistemaOperacional, status from Computador where hostname = ?;",
+                new BeanPropertyRowMapper(Computador.class), hostName);
 
         Integer computadorEncontrado = listaComputador.size();
         if (computadorEncontrado > 0) {
@@ -83,6 +85,8 @@ public class Looca extends javax.swing.JFrame {
         InfoPc infoPc = new InfoPc();
         Componente componente = new Componente();
         String numeroSerial = null;
+        String hostName = infoPc.hostName();
+        String mac = infoPc.mac();
 
         // DESCOMENTE ESSE CÓDIGO PARA TESTAR O CÓDIGO MAIS DE UMA VEZ NA MESMA MÁQUINA, POIS ELE GERA IDS DIFERENTES
         // SE AS DUAS LINHAS ABAIXO ESTIVEREM COMENTADAS A LINHA SEGUINTE DEVE ESTAR DESCOMENTADA
@@ -90,11 +94,11 @@ public class Looca extends javax.swing.JFrame {
 //        numeroSerial = String.valueOf(numeroAleatorio);
 
         String so = infoPc.sistemaOperacional();
-         if (so.equalsIgnoreCase("Windows")) {
-             numeroSerial = infoPc.numeroSerial();
-         } else {
-             numeroSerial = infoPc.numeroSerialLinux();
-         }
+//         if (so.equalsIgnoreCase("Windows")) {
+//             numeroSerial = infoPc.numeroSerial();
+//         } else {
+//             numeroSerial = infoPc.numeroSerialLinux();
+//         }
         Double freqCpu = infoPc.frequenciaCpu();
         Double qtdRam = infoPc.qtdRam();
         Double qtdArmazenamento = infoPc.qtdArmazenamento();
@@ -198,10 +202,11 @@ public class Looca extends javax.swing.JFrame {
             fkLocalizacao = localidade.getIdLocalizacao();
         }
 
-        int linhasInseridas = con.update("insert into Computador values (?, ?, ?, ?, ?)",
-                numeroSerial,
-                so,
+        int linhasInseridas = con.update("insert into Computador values (?, ?, ?, ?, ?, ?)",
+                hostName,
                 status,
+                so,
+                mac,
                 fkLocalizacao,
                 fkEmpresa
         );
