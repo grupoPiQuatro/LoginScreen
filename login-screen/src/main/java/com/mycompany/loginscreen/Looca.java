@@ -63,8 +63,8 @@ public class Looca extends javax.swing.JFrame {
 //             numeroSerial = infoPc.numeroSerialLinux();
 //         }
         
-//        String hostName = infoPc.hostName();
-        String hostName = "TESTE SO";
+        String hostName = infoPc.hostName();
+//        String hostName = "TESTE SO";
 
         List<Computador> listaComputador = con.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
@@ -99,8 +99,8 @@ public class Looca extends javax.swing.JFrame {
         
         InfoPc infoPc = new InfoPc();
        
-//        String hostName = infoPc.hostName();
-        String hostName = "TESTE SO";
+        String hostName = infoPc.hostName();
+//        String hostName = "TESTE SO";
         String mac = infoPc.mac();
 
         // DESCOMENTE ESSE CÓDIGO PARA TESTAR O CÓDIGO MAIS DE UMA VEZ NA MESMA MÁQUINA, POIS ELE GERA IDS DIFERENTES
