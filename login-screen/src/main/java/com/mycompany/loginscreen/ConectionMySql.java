@@ -17,9 +17,9 @@ public class ConectionMySql {
 
         dataSource​.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-        dataSource​.setUrl("jdbc:mysql://localhost/banco1");
+        dataSource​.setUrl("jdbc:mysql://localhost/MonitorMind");
 
-        dataSource​.setUsername("root");
+        dataSource​.setUsername("monitormind");
 
         dataSource​.setPassword("urubu100");
 
