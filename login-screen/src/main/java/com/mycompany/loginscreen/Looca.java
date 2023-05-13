@@ -249,14 +249,26 @@ public class Looca extends javax.swing.JFrame {
         Integer fkLocalizacao = null;
         Integer fkLocalizacao2 = null;
 
-        for (Localizacao localidade : loc) {
-            fkLocalizacao = localidade.getIdLocalizacao();
+//        for (Localizacao localidade : loc) {
+//            fkLocalizacao = localidade.getIdLocalizacao();    
+//        }
+        
+        for (int i = 0; i < loc.size(); i++) {
+            if(i == 0){
+                fkLocalizacao = loc.get(i).getIdLocalizacao();
+            }
         }
         
-        for (Localizacao localidade : loc2) {
-            fkLocalizacao2 = localidade.getIdLocalizacao();
+         for (int i = 0; i < loc2.size(); i++) {
+            if(i == 0){
+                fkLocalizacao2 = loc2.get(i).getIdLocalizacao();
+            }
         }
-
+        
+//        for (Localizacao localidade : loc2) {
+//            fkLocalizacao2 = localidade.getIdLocalizacao();
+//        }
+        
         int linhasInseridas = con.update("insert into Computador values (?, ?, ?, ?, ?, ?)",
                 hostName,
                 status,

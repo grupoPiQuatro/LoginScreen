@@ -19,9 +19,9 @@ public class ConectionMySql {
 
         dataSource​.setUrl("jdbc:mysql://localhost/MonitorMind");
 
-        dataSource​.setUsername("monitormind");
+        dataSource​.setUsername("root");
 
-        dataSource​.setPassword("urubu100");
+        dataSource​.setPassword("#Gf44659454851");
 
         this.connectionMySql = new JdbcTemplate(dataSource);
     }
