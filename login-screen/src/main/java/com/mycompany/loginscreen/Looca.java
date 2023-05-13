@@ -49,10 +49,10 @@ public class Looca extends javax.swing.JFrame {
     public void verificarPc() throws IOException {
         Conection conexao = new Conection();
         ConectionMySql conexao2 = new ConectionMySql();
-        
+
         JdbcTemplate con = conexao.getConnection();
         JdbcTemplate con2 = conexao2.getConnection();
-          
+
         InfoPc infoPc = new InfoPc();
 
 //        String numeroSerial = null;
@@ -62,21 +62,21 @@ public class Looca extends javax.swing.JFrame {
 //         } else {
 //             numeroSerial = infoPc.numeroSerialLinux();
 //         }
-        
+
         String hostName = infoPc.hostName();
 //        String hostName = "TESTE SO";
 
         List<Computador> listaComputador = con.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
-        
+
         List<Computador> listaComputador2 = con2.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
 
-            Integer computadorEncontrado = listaComputador.size();
-            Integer computadorEncontrado2 = listaComputador2.size();
-            
+        Integer computadorEncontrado = listaComputador.size();
+        Integer computadorEncontrado2 = listaComputador2.size();
+
         if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
             mensagemPc.setText("Computador já cadastrado");
         } else {
@@ -93,12 +93,12 @@ public class Looca extends javax.swing.JFrame {
     public void cadastrarPc(String setor, String discoTipo) throws IOException {
         Conection conexao = new Conection();
         ConectionMySql conexao2 = new ConectionMySql();
-        
+
         JdbcTemplate con = conexao.getConnection();
         JdbcTemplate con2 = conexao2.getConnection();
-        
+
         InfoPc infoPc = new InfoPc();
-       
+
         String hostName = infoPc.hostName();
 //        String hostName = "TESTE SO";
         String mac = infoPc.mac();
@@ -107,7 +107,6 @@ public class Looca extends javax.swing.JFrame {
         // SE AS DUAS LINHAS ABAIXO ESTIVEREM COMENTADAS A LINHA SEGUINTE DEVE ESTAR DESCOMENTADA
 //        Integer numeroAleatorio = ThreadLocalRandom.current().nextInt(1, 10001);
 //        numeroSerial = String.valueOf(numeroAleatorio);
-
         String so = infoPc.sistemaOperacional();
 //         if (so.equalsIgnoreCase("Windows")) {
 //             numeroSerial = infoPc.numeroSerial();
@@ -118,13 +117,13 @@ public class Looca extends javax.swing.JFrame {
         Double qtdRam = infoPc.qtdRam();
         Double qtdArmazenamento = infoPc.qtdArmazenamento();
         Integer tipoDisco = null;
-        
+
         if (discoTipo.equalsIgnoreCase("ssd")) {
             tipoDisco = 4;
         } else {
             tipoDisco = 5;
         }
-        
+
         String status = "Operando";
         String fkEmpresa = null;;
 
@@ -134,16 +133,21 @@ public class Looca extends javax.swing.JFrame {
 
         List<Componente> componentes = con.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-        
+
         List<Componente> componentes2 = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-        
+
         System.out.println(componentes);
 
         Boolean validarRam = false;
         Boolean validarDiscoSSD = false;
         Boolean validarDiscoHD = false;
         Boolean validarCpu = false;
+
+        Boolean validarRam2 = false;
+        Boolean validarDiscoSSD2 = false;
+        Boolean validarDiscoHD2 = false;
+        Boolean validarCpu2 = false;
 
         for (Componente comp : componentes) {
             if (comp.getFkTipo() == 3) {
@@ -171,7 +175,36 @@ public class Looca extends javax.swing.JFrame {
                     }
                 }
             }
-            
+
+        }
+
+        for (Componente comp : componentes2) {
+            if (comp.getFkTipo() == 3) {
+                if (comp.getNumeroChave().equals(freqCpu)) {
+                    validarCpu2 = true;
+                }
+            }
+
+            if (comp.getFkTipo() == 2) {
+                if (comp.getNumeroChave().equals(qtdRam)) {
+                    validarRam2 = true;
+                }
+            }
+
+            if (discoTipo.equalsIgnoreCase("ssd")) {
+                if (comp.getFkTipo() == 4) {
+                    if (comp.getNumeroChave().equals(qtdArmazenamento)) {
+                        validarDiscoSSD2 = true;
+                    }
+                }
+            } else {
+                if (comp.getFkTipo() == 5) {
+                    if (comp.getNumeroChave().equals(qtdArmazenamento)) {
+                        validarDiscoHD2 = true;
+                    }
+                }
+            }
+
         }
 
         if (validarCpu == false) {
@@ -180,7 +213,9 @@ public class Looca extends javax.swing.JFrame {
                     "hz",
                     3
             );
-            
+        }
+
+        if (validarCpu2 == false) {
             int linhaComponenteCpu2 = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                     freqCpu,
                     "hz",
@@ -194,7 +229,10 @@ public class Looca extends javax.swing.JFrame {
                     "gb",
                     2
             );
-            
+
+        }
+
+        if (validarRam2 == false) {
             int linhaComponenteRam2 = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                     qtdRam,
                     "gb",
@@ -209,21 +247,25 @@ public class Looca extends javax.swing.JFrame {
                         "gb",
                         tipoDisco
                 );
-                
-                int linhaComponenteDisco2 = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
+
+            }
+            if (validarDiscoSSD2 == false) {
+                int linhaComponenteDisco = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                         qtdArmazenamento,
                         "gb",
                         tipoDisco
                 );
+
             }
         } else {
-            if (validarDiscoHD == false) {
+            if (validarDiscoHD == false ) {
                 int linhaComponenteDisco = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                         qtdArmazenamento,
                         "gb",
                         tipoDisco
-                );
-                
+                ); 
+            }
+            if(validarDiscoHD2 == false){
                 int linhaComponenteDisco2 = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                         qtdArmazenamento,
                         "gb",
@@ -235,14 +277,14 @@ public class Looca extends javax.swing.JFrame {
         int linhaLocalizacao = con.update("insert into Localizacao (setor) values (?)",
                 setor
         );
-        
+
         int linhaLocalizacao2 = con2.update("insert into Localizacao (setor) values (?)",
                 setor
         );
 
         List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
-        
+
         List<Localizacao> loc2 = con2.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
 
@@ -252,23 +294,21 @@ public class Looca extends javax.swing.JFrame {
 //        for (Localizacao localidade : loc) {
 //            fkLocalizacao = localidade.getIdLocalizacao();    
 //        }
-        
-        for (int i = 0; i < loc.size(); i++) {
-            if(i == 0){
-                fkLocalizacao = loc.get(i).getIdLocalizacao();
-            }
-        }
-        
-         for (int i = 0; i < loc2.size(); i++) {
-            if(i == 0){
-                fkLocalizacao2 = loc2.get(i).getIdLocalizacao();
-            }
-        }
-        
 //        for (Localizacao localidade : loc2) {
 //            fkLocalizacao2 = localidade.getIdLocalizacao();
 //        }
-        
+        for (int i = 0; i < loc.size(); i++) {
+            if (i == 0) {
+                fkLocalizacao = loc.get(i).getIdLocalizacao();
+            }
+        }
+
+        for (int i = 0; i < loc2.size(); i++) {
+            if (i == 0) {
+                fkLocalizacao2 = loc2.get(i).getIdLocalizacao();
+            }
+        }
+
         int linhasInseridas = con.update("insert into Computador values (?, ?, ?, ?, ?, ?)",
                 hostName,
                 status,
@@ -277,7 +317,7 @@ public class Looca extends javax.swing.JFrame {
                 fkLocalizacao,
                 fkEmpresa
         );
-        
+
         int linhasInseridas2 = con2.update("insert into Computador values (?, ?, ?, ?, ?, ?)",
                 hostName,
                 status,
