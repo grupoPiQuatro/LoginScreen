@@ -133,7 +133,7 @@ public class Looca extends javax.swing.JFrame {
 
         List<Componente> componentes = con.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-
+        
         List<Componente> componentes2 = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
 
@@ -326,6 +326,70 @@ public class Looca extends javax.swing.JFrame {
                 fkLocalizacao2,
                 fkEmpresa
         );
+        
+        // Fazendo associação na config
+        Integer idRam = 0;
+         for(Componente comp : componentes){
+            if(comp.getFkTipo()== 2){
+                if(comp.getNumeroChave().equals(qtdRam)){
+                   idRam = comp.getIdComponente();
+                }
+            }
+        }
+        
+        Integer idCpu = 0;
+        for(Componente comp : componentes){
+            if(comp.getFkTipo()== 3){
+                if(comp.getNumeroChave().equals(freqCpu)){
+                   idCpu = comp.getIdComponente();
+                }
+            }
+        }
+        Integer idArmazenamento = 0;
+        for(Componente comp : componentes){
+            if((comp.getFkTipo() == 4 )||( comp.getFkTipo()== 5 )){
+                if(comp.getNumeroChave().equals(qtdArmazenamento)){
+                   idArmazenamento = comp.getIdComponente();
+                }
+            }
+        }
+        
+        Integer idRam2 = 0;
+         for(Componente comp : componentes2){
+            if(comp.getFkTipo()== 2){
+                if(comp.getNumeroChave().equals(qtdRam)){
+                   idRam2 = comp.getIdComponente();
+                }
+            }
+        }
+        
+        Integer idCpu2 = 0;
+        for(Componente comp : componentes2){
+            if(comp.getFkTipo()== 3){
+                if(comp.getNumeroChave().equals(freqCpu)){
+                   idCpu2 = comp.getIdComponente();
+                }
+            }
+        }
+        Integer idArmazenamento2 = 0;
+        for(Componente comp : componentes2){
+            if((comp.getFkTipo() == 4 )||( comp.getFkTipo()== 5 )){
+                if(comp.getNumeroChave().equals(qtdArmazenamento)){
+                   idArmazenamento2 = comp.getIdComponente();
+                }
+            }
+        }
+        
+        
+        
+        int associarRam = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRam);
+        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRam2);
+        
+        int associarCpu = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idCpu);
+        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idCpu2);
+        
+        int associarArmazenamento = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idArmazenamento);
+        int associarArmazenamento2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idArmazenamento2);
 
         localidade.setVisible(false);
         localidade2.setVisible(false);
