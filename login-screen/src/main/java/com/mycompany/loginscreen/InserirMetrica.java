@@ -23,13 +23,21 @@ public class InserirMetrica {
 
 
     public Double getUsoAtualDisco() {
-        long l = 0;
+        long teste = looca.getGrupoDeDiscos().getTamanhoTotal();
+//        long l = 0;
+        long s = 0;
         List<Volume> volumes = looca.getGrupoDeDiscos().getVolumes();
-        for (Volume volume : volumes) {
-            l = volume.getDisponivel();
-        }
-        Double d = (double)l;
-        Double response = Math.floor((( d / (1024 * 1024 * 1024)))* 100)/100;
+        
+        long l = volumes.get(0).getDisponivel();
+        long g = volumes.get(0).getTotal();
+        //volumes.get(0).getTotal();
+//        for (Volume volume : volumes) {
+//            s = volume.getTotal();
+//            l = volume.getDisponivel();
+//        }
+       Double response = Math.floor((( l / (1024 * 1024 * 1024)))* 100)/100;
+       Double response1 = Math.floor((( g / (1024 * 1024 * 1024)))* 100)/100;
+        //Double response1 = Math.floor((( r1 / (1024 * 1024 * 1024)))* 100)/100;
         return response;
     }
     
