@@ -4,16 +4,26 @@
  */
 package com.mycompany.loginscreen;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author Rainha Katarine I
  */
 public class Teste {
+
     public static void main(String[] args) {
         InserirMetrica im = new InserirMetrica();
-        
-        
-        System.out.println(im.getUsoAtualDisco());
-        System.out.println(im.getUsoAtualRam());
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                System.out.println(im.getUsoAtualDisco() +" Disco");
+                System.out.println(im.getUsoAtualRam() + " RAM");
+                System.out.println(im.getUsoAtualCpu() + " CPU");
+                System.out.println(im.ping() + "MS");
+            }
+        }, 0, 5000);
     }
 }

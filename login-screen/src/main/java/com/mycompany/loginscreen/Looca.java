@@ -55,17 +55,14 @@ public class Looca extends javax.swing.JFrame {
 
         InfoPc infoPc = new InfoPc();
 
-//        String numeroSerial = null;
+        
         String so = infoPc.sistemaOperacional();
-//         if (so.equalsIgnoreCase("Windows")) {
-//             numeroSerial = infoPc.numeroSerial();
-//         } else {
-//             numeroSerial = infoPc.numeroSerialLinux();
-//         }
+
 
         String hostName = infoPc.hostName();
-//        String hostName = "TESTE SO";
-
+       
+        
+       
         List<Computador> listaComputador = con.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
@@ -79,6 +76,7 @@ public class Looca extends javax.swing.JFrame {
 
         if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
             mensagemPc.setText("Computador já cadastrado");
+            System.out.println();
         } else {
             mensagemPc.setText("Computador não cadastrado");
             localidade.setVisible(true);
@@ -88,6 +86,30 @@ public class Looca extends javax.swing.JFrame {
             localidadeInput2.setVisible(true);
             btnConfirmar.setVisible(true);
         }
+    }
+    
+    public Integer fkConfigRede(){
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        InfoPc infoPc = new InfoPc();
+        
+        String hostname = infoPc.hostName();
+        
+        return con.queryForObject("select c.idConfig from Config c\n" +
+"join Componente cp on cp.idComponente = c.fkComponente\n" +
+"where cp.fkTipo in (1) and c.fkComputador = '?';",Integer.class, hostname);
+    }
+    public Integer fkConfigRam(){
+        
+        return 0;
+    }
+    public Integer fkConfigCpu(){
+        
+        return 0;
+    }
+    public Integer fkConfigMemoria(){
+        
+        return 0;
     }
 
     public void cadastrarPc(String setor, String discoTipo) throws IOException {
