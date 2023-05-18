@@ -18,18 +18,18 @@ public class Teste {
         InfoPc infoPc = new InfoPc();
 
         
-            im.inserirMetrica();
+//            im.inserirMetrica();
 //        String hostname = infoPc.hostName();
             
 //        System.out.println(im.fkConfigRam());
 //        System.out.println(im.fkConfigRede());
 //        System.out.println(im.fkConfigCpu());
-//        System.out.println(im.fkConfigArmazenamento());
-//        System.out.println("*******************************");
+        System.out.println(im.fkConfigArmazenamento());
+        System.out.println("*******************************");
 //        System.out.println(im.fkConfigRam2());
 //        System.out.println(im.fkConfigRede2());
 //        System.out.println(im.fkConfigCpu2());
-//        System.out.println(im.fkConfigArmazenamento2());
+        System.out.println(im.fkConfigArmazenamento2());
 //        System.out.println(im.ping() + "MS");
 //        System.out.println(im.teste());
 //        new Timer().scheduleAtFixedRate(new TimerTask() {
