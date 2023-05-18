@@ -59,6 +59,23 @@ fkEmpresa int,
 foreign key (fkEmpresa) references Empresa (idEmpresa)
 );
 
+create table Config(
+idConfig int primary key auto_increment,
+fkComputador varchar(45),
+fkComponente int,
+foreign key (fkComputador) references Computador(hostname),
+foreign key (fkComponente) references Componente(idComponente)
+);
+
+create table Metrica(
+idMetrica int primary key auto_increment,
+valor float,
+unidade varchar(45),
+dtCaptura datetime,
+fkConfig int,
+foreign key (fkConfig) references Config(idConfig)
+);
+
 select * from Empresa;
 select * from Endereco;
 select * from Usuario where email = '123' and senha = '123';
