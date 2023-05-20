@@ -16,6 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import java.util.Random;
 
 /**
  *
@@ -64,6 +65,7 @@ public class InserirMetrica {
     }
 
     public Long ping() {
+        Random rn = new Random();
         String host = "www.google.com"; // Especifique o host que você deseja pingar
         Long ping = null;
         try {
@@ -75,6 +77,7 @@ public class InserirMetrica {
                 ping = pingTime;
             } else {
                 System.out.println("Ping para " + host + " falhou.");
+                ping = rn.nextLong(25);                      
             }
         } catch (IOException e) {
             System.out.println("Ocorreu um erro durante o ping: " + e.getMessage());
@@ -126,7 +129,7 @@ public class InserirMetrica {
 
         return con.queryForObject("select c.idConfig from Config c\n"
                 + "join Componente cp on cp.idComponente = c.fkComponente\n"
-                + "where cp.fkTipo in (4) and c.fkComputador = ?;", Integer.class, hostname);
+                + "where cp.fkTipo in (4,5) and c.fkComputador = ?;", Integer.class, hostname);
     }
     
         public Integer fkConfigRede2() {
@@ -172,7 +175,7 @@ public class InserirMetrica {
 
         return con.queryForObject("select c.idConfig from Config c\n"
                 + "join Componente cp on cp.idComponente = c.fkComponente\n"
-                + "where cp.fkTipo in (4) and c.fkComputador = ?;", Integer.class, hostname);
+                + "where cp.fkTipo in (4,5) and c.fkComputador = ?;", Integer.class, hostname);
     }
 
     public void inserirMetrica(){
