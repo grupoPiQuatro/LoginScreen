@@ -45,7 +45,7 @@ public class Looca extends javax.swing.JFrame {
     private Looca() {
         throw new UnsupportedOperationException("Necessita de lista."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-         
+
     public void verificarPc() throws IOException {
         InserirMetrica im = new InserirMetrica();
         Conection conexao = new Conection();
@@ -56,14 +56,10 @@ public class Looca extends javax.swing.JFrame {
 
         InfoPc infoPc = new InfoPc();
 
-        
         String so = infoPc.sistemaOperacional();
 
-
         String hostName = infoPc.hostName();
-       
-        
-       
+
         List<Computador> listaComputador = con.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
@@ -88,10 +84,6 @@ public class Looca extends javax.swing.JFrame {
             btnConfirmar.setVisible(true);
         }
     }
-    
-   
-
-
 
     public void cadastrarPc(String setor, String discoTipo) throws IOException {
         Conection conexao = new Conection();
@@ -137,12 +129,15 @@ public class Looca extends javax.swing.JFrame {
 
         List<Componente> componentes = con.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-        
+
         List<Componente> componentes2 = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
 
+        System.out.println("Componentes 1");
         System.out.println(componentes);
-        
+        System.out.println("Componentes 2");
+        System.out.println(componentes2);
+
         Boolean validarRede = false;
         Boolean validarRam = false;
         Boolean validarDiscoSSD = false;
@@ -161,8 +156,7 @@ public class Looca extends javax.swing.JFrame {
                     validarRede = true;
                 }
             }
-            
-            
+
             if (comp.getFkTipo() == 3) {
                 if (comp.getNumeroChave().equals(freqCpu)) {
                     validarCpu = true;
@@ -191,8 +185,13 @@ public class Looca extends javax.swing.JFrame {
 
         }
         
+        System.out.println("Componentes 1");
+        System.out.println(componentes);
+        System.out.println("Componentes 2");
+        System.out.println(componentes2);
+
         for (Componente comp : componentes2) {
-             if (comp.getFkTipo() == 1) {
+            if (comp.getFkTipo() == 1) {
                 if (comp.getNumeroChave().equals(redeMs)) {
                     validarRede2 = true;
                 }
@@ -225,7 +224,12 @@ public class Looca extends javax.swing.JFrame {
 
         }
         
-          if (validarRede == false) {
+        System.out.println("Componentes 1");
+        System.out.println(componentes);
+        System.out.println("Componentes 2");
+        System.out.println(componentes2);
+
+        if (validarRede == false) {
             int linhaComponenteCpu = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                     redeMs,
                     "ms",
@@ -240,8 +244,7 @@ public class Looca extends javax.swing.JFrame {
                     1
             );
         }
-        
-        
+
         if (validarCpu == false) {
             int linhaComponenteCpu = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                     freqCpu,
@@ -293,14 +296,14 @@ public class Looca extends javax.swing.JFrame {
 
             }
         } else {
-            if (validarDiscoHD == false ) {
+            if (validarDiscoHD == false) {
                 int linhaComponenteDisco = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                         qtdArmazenamento,
                         "gb",
                         tipoDisco
-                ); 
+                );
             }
-            if(validarDiscoHD2 == false){
+            if (validarDiscoHD2 == false) {
                 int linhaComponenteDisco2 = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
                         qtdArmazenamento,
                         "gb",
@@ -316,7 +319,12 @@ public class Looca extends javax.swing.JFrame {
         int linhaLocalizacao2 = con2.update("insert into Localizacao (setor) values (?)",
                 setor
         );
-
+        
+        System.out.println("Componentes 1");
+        System.out.println(componentes);
+        System.out.println("Componentes 2");
+        System.out.println(componentes2);
+        
         List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
 
@@ -325,7 +333,6 @@ public class Looca extends javax.swing.JFrame {
 
         Integer fkLocalizacao = null;
         Integer fkLocalizacao2 = null;
-
 
         for (int i = 0; i < loc.size(); i++) {
             if (i == 0) {
@@ -357,88 +364,116 @@ public class Looca extends javax.swing.JFrame {
                 fkEmpresa
         );
         
+        System.out.println("Componentes 1");
+        System.out.println(componentes);
+        System.out.println("Componentes 2");
+        System.out.println(componentes2);
+
         // Fazendo associação na config
+        
+        List<Componente> componentesLocal = con2.query("select * from Componente;",
+                new BeanPropertyRowMapper(Componente.class));
+        System.out.println("Componentes Local");
+        System.out.println( componentesLocal);
         Integer idRede = 0;
-         for(Componente comp : componentes){
-            if(comp.getFkTipo()== 1){
-                if(comp.getNumeroChave().equals(redeMs)){
-                   idRede = comp.getIdComponente();
+        for (Componente comp : componentes) {
+            if (comp.getFkTipo() == 1) {
+                if (comp.getNumeroChave().equals(redeMs)) {
+                    idRede = comp.getIdComponente();
+                    System.out.println(idRede + "rede Azure");
                 }
             }
         }
-        
+
         Integer idRam = 0;
-         for(Componente comp : componentes){
-            if(comp.getFkTipo()== 2){
-                if(comp.getNumeroChave().equals(qtdRam)){
-                   idRam = comp.getIdComponente();
+        for (Componente comp : componentes) {
+            if (comp.getFkTipo() == 2) {
+                if (comp.getNumeroChave().equals(qtdRam)) {
+                    idRam = comp.getIdComponente();
+                    System.out.println(idRam + "ram Azure");
                 }
             }
         }
-        
+
         Integer idCpu = 1;
-        for(Componente comp : componentes){
-            if(comp.getFkTipo()== 3){
-                if(comp.getNumeroChave().equals(freqCpu)){
-                   idCpu = comp.getIdComponente();
+        for (Componente comp : componentes) {
+            if (comp.getFkTipo() == 3) {
+                if (comp.getNumeroChave().equals(freqCpu)) {
+                    idCpu = comp.getIdComponente();
+                    System.out.println(idCpu + "cpu Azure");
                 }
             }
         }
         Integer idArmazenamento = 0;
-        for(Componente comp : componentes){
-            if((comp.getFkTipo() == 4 )||( comp.getFkTipo()== 5 )){
-                if(comp.getNumeroChave().equals(qtdArmazenamento)){
-                   idArmazenamento = comp.getIdComponente();
+        for (Componente comp : componentes) {
+            if ((comp.getFkTipo() == 4) || (comp.getFkTipo() == 5)) {
+                if (comp.getNumeroChave().equals(qtdArmazenamento)) {
+                    idArmazenamento = comp.getIdComponente();
+                    System.out.println(idArmazenamento + "armazenamento Azure");
                 }
             }
         }
+
+        // LOCAL
         
         Integer idRede2 = 0;
-         for(Componente comp : componentes2){
-            if(comp.getFkTipo()== 1){
-                if(comp.getNumeroChave().equals(redeMs)){
-                   idRede2 = comp.getIdComponente();
+        for (Componente comp : componentesLocal) {
+            System.out.println("Entrou no for de Rede");
+            if (comp.getFkTipo() == 1) {
+                System.out.println("Achou fk rede");
+                if (comp.getNumeroChave().equals(redeMs)) {
+                    idRede2 = comp.getIdComponente();
+                    System.out.println(idRede2 + "rede local");
                 }
             }
         }
-        
-        Integer idRam2 = 1;
-         for(Componente comp : componentes2){
-            if(comp.getFkTipo()== 2){
-                if(comp.getNumeroChave().equals(qtdRam)){
-                   idRam2 = comp.getIdComponente();
+
+        Integer idRam2 = 0;
+        for (Componente comp : componentesLocal) {
+            System.out.println("Entrou no for de RAM");
+            if (comp.getFkTipo() == 2) {
+                System.out.println("Achou fk ram");
+                if (comp.getNumeroChave().equals(qtdRam)) {
+                    idRam2 = comp.getIdComponente();
+                    System.out.println(idRam2 + "ram local");
                 }
             }
         }
-        
+
         Integer idCpu2 = 0;
-        for(Componente comp : componentes2){
-            if(comp.getFkTipo()== 3){
-                if(comp.getNumeroChave().equals(freqCpu)){
-                   idCpu2 = comp.getIdComponente();
+        for (Componente comp : componentesLocal) {
+            System.out.println("Entrou no for de CPU");
+            if (comp.getFkTipo() == 3) {
+                System.out.println("Achou fk CPU");
+                if (comp.getNumeroChave().equals(freqCpu)) {
+                    idCpu2 = comp.getIdComponente();
+                    System.out.println(idCpu2 + "cpu local");
                 }
             }
         }
         Integer idArmazenamento2 = 0;
-        for(Componente comp : componentes2){
-            if((comp.getFkTipo() == 4 )||( comp.getFkTipo()== 5 )){
-                if(comp.getNumeroChave().equals(qtdArmazenamento)){
-                   idArmazenamento2 = comp.getIdComponente();
+        for (Componente comp : componentesLocal) {
+            System.out.println("Entrou no for de Armazenamento");
+            if ((comp.getFkTipo() == 4) || (comp.getFkTipo() == 5)) {
+                System.out.println("Achou fk armazenamento");
+                if (comp.getNumeroChave().equals(qtdArmazenamento)) {
+                    idArmazenamento2 = comp.getIdComponente();
+                    System.out.println(idArmazenamento2 + "armazenamento local");
                 }
             }
         }
-        
-        int associarRede = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRede);
-        int associarRede2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRede2);
-        
-        int associarRam = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRam);
-        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idRam2);
-        
-        int associarCpu = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idCpu);
-        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idCpu2);
-        
-        int associarArmazenamento = con.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idArmazenamento);
-        int associarArmazenamento2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)",hostName,idArmazenamento2);
+
+        int associarRede = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede);
+        int associarRede2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede2);
+
+        int associarRam = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam);
+        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam2);
+
+        int associarCpu = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu);
+        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu2);
+
+        int associarArmazenamento = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idArmazenamento);
+        int associarArmazenamento2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idArmazenamento2);
 
         localidade.setVisible(false);
         localidade2.setVisible(false);
