@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import tela.de.captura.TelaDeCaptura;
 
 /**
  *
@@ -71,9 +73,14 @@ public class Looca extends javax.swing.JFrame {
         Integer computadorEncontrado = listaComputador.size();
         Integer computadorEncontrado2 = listaComputador2.size();
 
-        if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
+        if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {           
+            
             mensagemPc.setText("Computador já cadastrado");
-            im.inserirMetrica();
+            setLocation(1000, 1000);
+            TelaDeCaptura tc = new TelaDeCaptura();
+            tc.setVisible(true);           
+                
+            
         } else {
             mensagemPc.setText("Computador não cadastrado");
             localidade.setVisible(true);
@@ -86,6 +93,7 @@ public class Looca extends javax.swing.JFrame {
     }
 
     public void cadastrarPc(String setor, String discoTipo) throws IOException {
+        InserirMetrica im = new InserirMetrica();
         Conection conexao = new Conection();
         ConectionMySql conexao2 = new ConectionMySql();
 
@@ -95,19 +103,12 @@ public class Looca extends javax.swing.JFrame {
         InfoPc infoPc = new InfoPc();
 
         String hostName = infoPc.hostName();
-//        String hostName = "TESTE SO";
+
         String mac = infoPc.mac();
 
-        // DESCOMENTE ESSE CÓDIGO PARA TESTAR O CÓDIGO MAIS DE UMA VEZ NA MESMA MÁQUINA, POIS ELE GERA IDS DIFERENTES
-        // SE AS DUAS LINHAS ABAIXO ESTIVEREM COMENTADAS A LINHA SEGUINTE DEVE ESTAR DESCOMENTADA
-//        Integer numeroAleatorio = ThreadLocalRandom.current().nextInt(1, 10001);
-//        numeroSerial = String.valueOf(numeroAleatorio);
+
         String so = infoPc.sistemaOperacional();
-//         if (so.equalsIgnoreCase("Windows")) {
-//             numeroSerial = infoPc.numeroSerial();
-//         } else {
-//             numeroSerial = infoPc.numeroSerialLinux();
-//         }
+
         Double freqCpu = infoPc.frequenciaCpu();
         Double qtdRam = infoPc.qtdRam();
         Double qtdArmazenamento = infoPc.qtdArmazenamento();
@@ -133,10 +134,7 @@ public class Looca extends javax.swing.JFrame {
         List<Componente> componentes2 = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
 
-        System.out.println("Componentes 1");
-        System.out.println(componentes);
-        System.out.println("Componentes 2");
-        System.out.println(componentes2);
+
 
         Boolean validarRede = false;
         Boolean validarRam = false;
@@ -185,10 +183,7 @@ public class Looca extends javax.swing.JFrame {
 
         }
         
-        System.out.println("Componentes 1");
-        System.out.println(componentes);
-        System.out.println("Componentes 2");
-        System.out.println(componentes2);
+
 
         for (Componente comp : componentes2) {
             if (comp.getFkTipo() == 1) {
@@ -224,10 +219,7 @@ public class Looca extends javax.swing.JFrame {
 
         }
         
-        System.out.println("Componentes 1");
-        System.out.println(componentes);
-        System.out.println("Componentes 2");
-        System.out.println(componentes2);
+
 
         if (validarRede == false) {
             int linhaComponenteCpu = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
@@ -320,10 +312,6 @@ public class Looca extends javax.swing.JFrame {
                 setor
         );
         
-        System.out.println("Componentes 1");
-        System.out.println(componentes);
-        System.out.println("Componentes 2");
-        System.out.println(componentes2);
         
         List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
@@ -364,23 +352,19 @@ public class Looca extends javax.swing.JFrame {
                 fkEmpresa
         );
         
-        System.out.println("Componentes 1");
-        System.out.println(componentes);
-        System.out.println("Componentes 2");
-        System.out.println(componentes2);
+
 
         // Fazendo associação na config
         
         List<Componente> componentesLocal = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-        System.out.println("Componentes Local");
-        System.out.println( componentesLocal);
+
         Integer idRede = 0;
         for (Componente comp : componentes) {
             if (comp.getFkTipo() == 1) {
                 if (comp.getNumeroChave().equals(redeMs)) {
                     idRede = comp.getIdComponente();
-                    System.out.println(idRede + "rede Azure");
+                   
                 }
             }
         }
@@ -390,7 +374,6 @@ public class Looca extends javax.swing.JFrame {
             if (comp.getFkTipo() == 2) {
                 if (comp.getNumeroChave().equals(qtdRam)) {
                     idRam = comp.getIdComponente();
-                    System.out.println(idRam + "ram Azure");
                 }
             }
         }
@@ -400,7 +383,6 @@ public class Looca extends javax.swing.JFrame {
             if (comp.getFkTipo() == 3) {
                 if (comp.getNumeroChave().equals(freqCpu)) {
                     idCpu = comp.getIdComponente();
-                    System.out.println(idCpu + "cpu Azure");
                 }
             }
         }
@@ -409,7 +391,6 @@ public class Looca extends javax.swing.JFrame {
             if ((comp.getFkTipo() == 4) || (comp.getFkTipo() == 5)) {
                 if (comp.getNumeroChave().equals(qtdArmazenamento)) {
                     idArmazenamento = comp.getIdComponente();
-                    System.out.println(idArmazenamento + "armazenamento Azure");
                 }
             }
         }
@@ -418,47 +399,35 @@ public class Looca extends javax.swing.JFrame {
         
         Integer idRede2 = 0;
         for (Componente comp : componentesLocal) {
-            System.out.println("Entrou no for de Rede");
             if (comp.getFkTipo() == 1) {
-                System.out.println("Achou fk rede");
                 if (comp.getNumeroChave().equals(redeMs)) {
                     idRede2 = comp.getIdComponente();
-                    System.out.println(idRede2 + "rede local");
                 }
             }
         }
 
         Integer idRam2 = 0;
         for (Componente comp : componentesLocal) {
-            System.out.println("Entrou no for de RAM");
             if (comp.getFkTipo() == 2) {
-                System.out.println("Achou fk ram");
                 if (comp.getNumeroChave().equals(qtdRam)) {
                     idRam2 = comp.getIdComponente();
-                    System.out.println(idRam2 + "ram local");
                 }
             }
         }
 
         Integer idCpu2 = 0;
         for (Componente comp : componentesLocal) {
-            System.out.println("Entrou no for de CPU");
             if (comp.getFkTipo() == 3) {
-                System.out.println("Achou fk CPU");
                 if (comp.getNumeroChave().equals(freqCpu)) {
                     idCpu2 = comp.getIdComponente();
-                    System.out.println(idCpu2 + "cpu local");
                 }
             }
         }
         Integer idArmazenamento2 = 0;
         for (Componente comp : componentesLocal) {
-            System.out.println("Entrou no for de Armazenamento");
             if ((comp.getFkTipo() == 4) || (comp.getFkTipo() == 5)) {
-                System.out.println("Achou fk armazenamento");
                 if (comp.getNumeroChave().equals(qtdArmazenamento)) {
                     idArmazenamento2 = comp.getIdComponente();
-                    System.out.println(idArmazenamento2 + "armazenamento local");
                 }
             }
         }
@@ -482,6 +451,7 @@ public class Looca extends javax.swing.JFrame {
         localidadeInput2.setVisible(false);
         btnConfirmar.setVisible(false);
         mensagemPc.setText("Computador cadastrado!");
+        
     }
 
     /**

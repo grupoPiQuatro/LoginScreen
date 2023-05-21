@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.Random;
+import tela.de.captura.TelaDeCaptura;
 
 /**
  *
@@ -77,7 +78,7 @@ public class InserirMetrica {
                 ping = pingTime;
             } else {
                 System.out.println("Ping para " + host + " falhou.");
-                ping = rn.nextLong(25);                      
+                ping = rn.nextLong(25);
             }
         } catch (IOException e) {
             System.out.println("Ocorreu um erro durante o ping: " + e.getMessage());
@@ -131,8 +132,8 @@ public class InserirMetrica {
                 + "join Componente cp on cp.idComponente = c.fkComponente\n"
                 + "where cp.fkTipo in (4,5) and c.fkComputador = ?;", Integer.class, hostname);
     }
-    
-        public Integer fkConfigRede2() {
+
+    public Integer fkConfigRede2() {
         ConectionMySql conexao = new ConectionMySql();
         JdbcTemplate con = conexao.getConnection();
         InfoPc infoPc = new InfoPc();
@@ -178,28 +179,42 @@ public class InserirMetrica {
                 + "where cp.fkTipo in (4,5) and c.fkComputador = ?;", Integer.class, hostname);
     }
 
-    public void inserirMetrica(){
+    public String inserirMetrica() {
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
-        
+
         ConectionMySql conexao2 = new ConectionMySql();
         JdbcTemplate con2 = conexao2.getConnection();
-        
-        
-        new Timer().scheduleAtFixedRate(new TimerTask() {
 
-            public void run() {
+                Long rede = ping();
+                Double ram = getUsoAtualRam();
+                Double cpu = getUsoAtualCpu();
+                Double disco = getUsoAtualDisco();
+
+
+                int azurePing = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede());
+                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", ram, fkConfigRam());
+                int azureCpu = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu());
+                int azureArmazenamento = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento());
+
+                int pingLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede2());
+                int ramLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", ram, fkConfigRam2());
+                int cpuLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu2());
+                int armazenamentoLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento2());
                 System.out.println("ok");
-                int azurePing = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)",ping(),fkConfigRede()) ;
-                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)",getUsoAtualRam(),fkConfigRam()) ;
-                int azureCpu = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)",getUsoAtualCpu(),fkConfigCpu()) ;
-                int azureArmazenamento = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)",getUsoAtualDisco(),fkConfigArmazenamento()) ;
-                
-                int ping = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)",ping(),fkConfigRede2()) ;
-                int ram = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)",getUsoAtualRam(),fkConfigRam2()) ;
-                int cpu = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)",getUsoAtualCpu(),fkConfigCpu2()) ;
-                int armazenamento = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)",getUsoAtualDisco(),fkConfigArmazenamento2()) ;
-            }
-        }, 0, 10000);
+        return impressao(rede, ram, cpu, disco);
+        
+    }
+    
+    public String impressao(Long rede, Double ram, Double cpu, Double disco){
+        
+        String response = String.format("""
+                                        %d MS | 
+                                        %.2f GB RAM | 
+                                        %.2f %% CPU | 
+                                        %.2f GB Disco
+                                        """, rede,ram,cpu,disco);
+        
+        return response ;
     }
 }
