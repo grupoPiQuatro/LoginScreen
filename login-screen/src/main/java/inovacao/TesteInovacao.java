@@ -44,7 +44,7 @@ public class TesteInovacao {
         if (isWindows) {
             builder.command(System.getProperty("user.dir") + "\\scripts\\echo.bat");
         } else {
-            builder.command("sh","-c", System.getProperty("user.dir")+"/scripts/scho.sh");
+            builder.command("bash",System.getProperty("user.dir")+"/scripts/echo.sh");
         }
         
         ExecutorService pool = Executors.newSingleThreadExecutor();

@@ -2,6 +2,6 @@
 
 STRING="Hello World!"
 
-echo STRING
+echo "Hello World!"
 
 reboot
