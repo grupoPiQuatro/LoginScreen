@@ -50,7 +50,7 @@ public class InfoPc {
 //        return serial;
 //    }
     
-    String hostName(){
+    public String hostName(){
         return looca.getRede().getParametros().getHostName();
     }
     
@@ -68,7 +68,7 @@ public class InfoPc {
         return looca.getSistema().getSistemaOperacional();
     }
     
-    Double frequenciaCpu() {
+    public Double frequenciaCpu() {
         Long freqReal = looca.getProcessador().getFrequencia();
         
         Double freqConvertida = (double) freqReal / 1000000000;
@@ -88,7 +88,7 @@ public class InfoPc {
         return looca.getProcessador().getNumeroCpusLogicas();
     }
     
-    Double qtdRam() {
+    public Double qtdRam() {
         Long qtdRamBytes = looca.getMemoria().getTotal();
         Long ramReal = qtdRamBytes / (1024 * 1024 * 1024); 
         Integer ramIdeal = null;
@@ -102,7 +102,7 @@ public class InfoPc {
         } 
     }
     
-    Double qtdArmazenamento() {
+   public  Double qtdArmazenamento() {
         Long qtdArmazenamentoBytes = null;
        
         List<Volume> volumeDisco = looca.getGrupoDeDiscos().getVolumes();

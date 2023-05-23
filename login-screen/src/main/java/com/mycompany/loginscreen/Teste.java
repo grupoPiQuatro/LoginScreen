@@ -16,13 +16,16 @@ public class Teste {
     public static void main(String[] args) {
         InserirMetrica im = new InserirMetrica();
         InfoPc infoPc = new InfoPc();
+        inovacao.Inovacao in = new inovacao.Inovacao();
         
-        
+//        System.out.println(in.fkEmpresa()); 
+//        System.out.println(in.valorParametro());
+        System.out.println(in.verificarNecessidade());
 //        System.out.println(im.inserirMetrica());
-        
+//            System.out.println(im.fkConfigRam());
 //            im.inserirMetrica();
 //        String hostname = infoPc.hostName();
-            
+//           System.out.println(hostname); 
 //        System.out.println(im.fkConfigRam());
 //        System.out.println(im.fkConfigRede());
 //        System.out.println(im.fkConfigCpu());

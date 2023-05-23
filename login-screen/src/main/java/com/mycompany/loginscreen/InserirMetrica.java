@@ -180,6 +180,8 @@ public class InserirMetrica {
     }
 
     public String inserirMetrica() {
+        InfoPc ip = new InfoPc();
+        
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
 
@@ -187,18 +189,23 @@ public class InserirMetrica {
         JdbcTemplate con2 = conexao2.getConnection();
 
                 Long rede = ping();
-                Double ram = getUsoAtualRam();
+                Double ramAtual = getUsoAtualRam();
+                Double totalRam = ip.qtdRam();
+                Double ram = (ramAtual/totalRam)*100;
+                
                 Double cpu = getUsoAtualCpu();
-                Double disco = getUsoAtualDisco();
+                Double discoAtual = getUsoAtualDisco();
+                Double discoTotal = ip.qtdArmazenamento();
+                Double disco = (discoAtual/discoTotal)*100;
 
 
                 int azurePing = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede());
-                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", ram, fkConfigRam());
+                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", ram, fkConfigRam());
                 int azureCpu = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu());
                 int azureArmazenamento = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento());
 
                 int pingLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede2());
-                int ramLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", ram, fkConfigRam2());
+                int ramLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", ram, fkConfigRam2());
                 int cpuLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu2());
                 int armazenamentoLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento2());
                 System.out.println("ok");
@@ -210,7 +217,7 @@ public class InserirMetrica {
         
         String response = String.format("""
                                         %d MS | 
-                                        %.2f GB RAM | 
+                                        %.2f %% RAM | 
                                         %.2f %% CPU | 
                                         %.2f GB Disco
                                         """, rede,ram,cpu,disco);

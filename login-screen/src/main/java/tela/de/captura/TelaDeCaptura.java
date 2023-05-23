@@ -205,6 +205,14 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                 
             }
         }, 0, 10000);
+        
+         new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                jLabelTextData.setText("outro tempo");
+                
+            }
+        }, 0, 120000);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
