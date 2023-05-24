@@ -61,7 +61,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.mycompany.loginscreen.Login</mainClass> 
+                            <mainClass>app.Login</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>

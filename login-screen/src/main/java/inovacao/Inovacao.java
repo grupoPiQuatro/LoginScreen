@@ -5,11 +5,11 @@
 package inovacao;
 
 import com.github.britooo.looca.api.core.Looca;
-import com.mycompany.loginscreen.Componente;
-import com.mycompany.loginscreen.Conection;
-import com.mycompany.loginscreen.InfoPc;
-import com.mycompany.loginscreen.InserirMetrica;
-import com.mycompany.loginscreen.Metrica;
+import models.Componente;
+import sql.Conection;
+import app.InfoPc;
+import app.InserirMetrica;
+import models.Metrica;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

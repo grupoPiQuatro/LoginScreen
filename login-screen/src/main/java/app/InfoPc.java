@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.loginscreen;
+package app;
 
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Volume;
@@ -54,7 +54,7 @@ public class InfoPc {
         return looca.getRede().getParametros().getHostName();
     }
     
-    String mac(){
+    public String mac(){
         List<RedeInterface> redes  = looca.getRede().getGrupoDeInterfaces().getInterfaces();
         
         for (RedeInterface mac : redes) {
@@ -64,7 +64,7 @@ public class InfoPc {
         return null;
     }
  
-    String sistemaOperacional() {
+    public String sistemaOperacional() {
         return looca.getSistema().getSistemaOperacional();
     }
     
@@ -76,15 +76,15 @@ public class InfoPc {
         return Math.round(freqConvertida * Math.pow(10, 1)) / Math.pow(10, 1);
     }
     
-    String nomeCPU() {
+    public String nomeCPU() {
         return looca.getProcessador().getNome();
     }
     
-    Integer nucleoFisico() {
+    public Integer nucleoFisico() {
         return looca.getProcessador().getNumeroCpusFisicas();
     }
     
-    Integer nucleoLogico() {
+    public Integer nucleoLogico() {
         return looca.getProcessador().getNumeroCpusLogicas();
     }
     
@@ -121,7 +121,7 @@ public class InfoPc {
         }
     }
     
-    String tipoDisco() throws IOException {
+    public String tipoDisco() throws IOException {
         ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "vol c:");
         builder.redirectErrorStream(true);
         Process process = builder.start();

@@ -4,13 +4,17 @@
  */
 package tela.de.captura;
 
-import com.mycompany.loginscreen.InserirMetrica;
+import app.InserirMetrica;
+import app.LogGenerator;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -144,7 +148,12 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelXbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelXbuttonMouseClicked
-        // TODO add your handling code here:
+        try {
+            LogGenerator.generateLog("Usuário deslogado.");
+            LogGenerator.generateLog("Encerrando captura de dados.");
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.exit(0);
     }//GEN-LAST:event_jLabelXbuttonMouseClicked
 
@@ -194,6 +203,11 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         });
     }
     public void exibirDados(){
+        try {
+            LogGenerator.generateLog("Enviando dados...");
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
         InserirMetrica im = new InserirMetrica();
         
        

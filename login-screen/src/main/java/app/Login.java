@@ -1,4 +1,6 @@
-package com.mycompany.loginscreen;
+package app;
+import sql.Conection;
+import models.UserLogin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -273,6 +275,8 @@ public class Login extends javax.swing.JFrame {
         Integer sizeUser = user.size();
         
         if (sizeUser > 0) {
+            LogGenerator.generateLog("Usuario logado");
+            LogGenerator.generateLog("Entrando com o login " + login);
 //            textAlert.setText("Usuário encontrado");
             Looca looca = new Looca(user);
            

@@ -2,8 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.loginscreen;
+package app;
 
+import sql.Conection;
+import sql.ConectionMySql;
+import models.Computador;
+import models.Componente;
+import models.Localizacao;
+import models.UserLogin;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -74,7 +80,6 @@ public class Looca extends javax.swing.JFrame {
         Integer computadorEncontrado2 = listaComputador2.size();
 
         if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {           
-            
             mensagemPc.setText("Computador já cadastrado");
             setLocation(1000, 1000);
             TelaDeCaptura tc = new TelaDeCaptura();
