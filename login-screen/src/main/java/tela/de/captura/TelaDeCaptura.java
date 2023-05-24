@@ -149,7 +149,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
 
     private void jLabelXbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelXbuttonMouseClicked
         try {
-            LogGenerator.generateLog("Usuário deslogado.");
+            LogGenerator.generateLog("Usuario deslogado.");
             LogGenerator.generateLog("Encerrando captura de dados.");
         } catch (IOException ex) {
             Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
