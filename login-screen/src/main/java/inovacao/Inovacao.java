@@ -43,16 +43,28 @@ public class Inovacao {
        return con.queryForObject("select valor from Parametros where fkAlerta = 1 and fkEmpresa = ? and fkComponente = 2", Integer.class,fkEmpresa());
    }
    
-   public List verificarNecessidade(){
+   public Boolean verificarNecessidade(){
        Conection conexao = new Conection();
        JdbcTemplate con = conexao.getConnection();
        InserirMetrica im = new InserirMetrica();
        
-       List<String> listaMetrica = con.query(
-       "select top 10 case when valor  >  ?  then 'true' else 'false' end as valor from [dbo].[metrica] where fkConfig = ? order by dtCaptura desc;",
-       new BeanPropertyRowMapper(String.class), valorParametro(), im.fkConfigRam()
-       );
+//       List<String> listaMetrica = con.query(
+//       "select top 10 case when valor  >  ?  then 1 else 0 end as valor from [dbo].[metrica] where fkConfig = ? order by dtCaptura desc;",
+//       new BeanPropertyRowMapper(Integer.class), 80, 111
+//       );
        
-     return listaMetrica;  
+       List<Metrica> metrica = con.query("select top 10 * from Metrica where fkConfig = ? order by dtCaptura desc ;",
+       new BeanPropertyRowMapper(Metrica.class), im.fkConfigRam());
+       
+       Boolean necessita = false;
+       
+       for (Metrica met : metrica) {
+           if(met.getValor() > valorParametro()){
+               necessita = true;
+           }else{
+               necessita = false;
+           }
+       }
+     return necessita;  
    }
 }

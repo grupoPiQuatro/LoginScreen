@@ -67,6 +67,11 @@ public class Metrica {
     public void setFkConfig(Integer fkConfig) {
         this.fkConfig = fkConfig;
     }
+
+    @Override
+    public String toString() {
+        return "Metrica{" + "idMetrica=" + idMetrica + ", valor=" + valor + ", unidade=" + unidade + ", dtCaptura=" + dtCaptura + ", fkConfig=" + fkConfig + '}';
+    }
     
     
     
