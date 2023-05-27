@@ -63,7 +63,7 @@ public class InfoPc {
         
         return null;
     }
- 
+     
     public String sistemaOperacional() {
         return looca.getSistema().getSistemaOperacional();
     }

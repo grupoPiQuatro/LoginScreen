@@ -20,7 +20,7 @@ public class Teste {
         
 //        System.out.println(in.fkEmpresa()); 
 //        System.out.println(in.valorParametro());
-        System.out.println(in.verificarNecessidade());
+//        System.out.println(in.verificarNecessidade());
 //        System.out.println(im.inserirMetrica());
 //            System.out.println(im.fkConfigRam());
 //            im.inserirMetrica();

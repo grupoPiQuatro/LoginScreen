@@ -6,17 +6,22 @@ package tela.de.captura;
 
 import app.InserirMetrica;
 import app.LogGenerator;
+import app.Looca;
+import inovacao.Inovacao;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import models.UserLogin;
 
 /**
  *
@@ -27,9 +32,10 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     /**
      * Creates new form TelaDeCaptura
      */
-    public TelaDeCaptura() {
+    public TelaDeCaptura() {  
+        jToggleButton1.setVisible(false);
         initComponents();
-        setLocation(950, 500);
+        setLocation(850, 500);
         
         exibirDados();
     }
@@ -49,6 +55,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jLabelTitle = new javax.swing.JLabel();
         jLabelXbutton = new javax.swing.JLabel();
         jLabelMinimazingButton = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -68,8 +75,8 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDataScreenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTextData, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabelTextData, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelDataScreenLayout.setVerticalGroup(
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +94,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jLabelXbutton.setForeground(new java.awt.Color(255, 255, 255));
         jLabelXbutton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelXbutton.setText("X");
-        jLabelXbutton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelXbutton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabelXbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelXbuttonMouseClicked(evt);
@@ -98,10 +105,17 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jLabelMinimazingButton.setForeground(new java.awt.Color(255, 255, 255));
         jLabelMinimazingButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMinimazingButton.setText("-");
-        jLabelMinimazingButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelMinimazingButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabelMinimazingButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelMinimazingButtonMouseClicked(evt);
+            }
+        });
+
+        jToggleButton1.setText("isso é um botao");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
             }
         });
 
@@ -119,13 +133,17 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                             .addGroup(jPanelBackgroundLayout.createSequentialGroup()
                                 .addGap(54, 54, 54)
                                 .addComponent(jLabelTitle)))
-                        .addGap(0, 18, Short.MAX_VALUE))
+                        .addGap(0, 16, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabelMinimazingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelXbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addGap(159, 159, 159))
         );
         jPanelBackgroundLayout.setVerticalGroup(
             jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,10 +157,12 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                 .addComponent(jLabelTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanelBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanelBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -167,6 +187,10 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             frame.setExtendedState(Frame.ICONIFIED);
         }
     }//GEN-LAST:event_jLabelMinimazingButtonMouseClicked
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,14 +244,21 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             }
         }, 0, 10000);
         
-         new Timer().scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                jLabelTextData.setText("outro tempo");
-                
-            }
-        }, 0, 120000);
+//         new Timer().scheduleAtFixedRate(new TimerTask() {
+//
+//            public void run() {
+//                
+//            }
+//        }, 0, 120000);
     }
+    
+       
+   public void reiniciar(){
+       Inovacao i = new inovacao.Inovacao();
+       if(i.verificarNecessidade()){
+           
+       }
+   }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelMinimazingButton;
@@ -236,5 +267,6 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelXbutton;
     private javax.swing.JPanel jPanelBackground;
     private javax.swing.JPanel jPanelDataScreen;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -79,13 +79,12 @@ public class Looca extends javax.swing.JFrame {
         Integer computadorEncontrado = listaComputador.size();
         Integer computadorEncontrado2 = listaComputador2.size();
 
-        if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {           
+        if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
             mensagemPc.setText("Computador já cadastrado");
-            setLocation(1000, 1000);
+            this.dispose();
             TelaDeCaptura tc = new TelaDeCaptura();
-            tc.setVisible(true);           
-                
-            
+            tc.setVisible(true);
+
         } else {
             mensagemPc.setText("Computador não cadastrado");
             localidade.setVisible(true);
@@ -110,7 +109,6 @@ public class Looca extends javax.swing.JFrame {
         String hostName = infoPc.hostName();
 
         String mac = infoPc.mac();
-
 
         String so = infoPc.sistemaOperacional();
 
@@ -138,8 +136,6 @@ public class Looca extends javax.swing.JFrame {
 
         List<Componente> componentes2 = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
-
-
 
         Boolean validarRede = false;
         Boolean validarRam = false;
@@ -187,8 +183,6 @@ public class Looca extends javax.swing.JFrame {
             }
 
         }
-        
-
 
         for (Componente comp : componentes2) {
             if (comp.getFkTipo() == 1) {
@@ -223,8 +217,6 @@ public class Looca extends javax.swing.JFrame {
             }
 
         }
-        
-
 
         if (validarRede == false) {
             int linhaComponenteCpu = con.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
@@ -316,8 +308,7 @@ public class Looca extends javax.swing.JFrame {
         int linhaLocalizacao2 = con2.update("insert into Localizacao (setor) values (?)",
                 setor
         );
-        
-        
+
         List<Localizacao> loc = con.query("select idLocalizacao from Localizacao order by idLocalizacao desc",
                 new BeanPropertyRowMapper(Localizacao.class));
 
@@ -356,11 +347,8 @@ public class Looca extends javax.swing.JFrame {
                 fkLocalizacao2,
                 fkEmpresa
         );
-        
-
 
         // Fazendo associação na config
-        
         List<Componente> componentesLocal = con2.query("select * from Componente;",
                 new BeanPropertyRowMapper(Componente.class));
 
@@ -369,7 +357,7 @@ public class Looca extends javax.swing.JFrame {
             if (comp.getFkTipo() == 1) {
                 if (comp.getNumeroChave().equals(redeMs)) {
                     idRede = comp.getIdComponente();
-                   
+
                 }
             }
         }
@@ -401,7 +389,6 @@ public class Looca extends javax.swing.JFrame {
         }
 
         // LOCAL
-        
         Integer idRede2 = 0;
         for (Componente comp : componentesLocal) {
             if (comp.getFkTipo() == 1) {
@@ -456,7 +443,11 @@ public class Looca extends javax.swing.JFrame {
         localidadeInput2.setVisible(false);
         btnConfirmar.setVisible(false);
         mensagemPc.setText("Computador cadastrado!");
-        
+
+        this.dispose();
+        TelaDeCaptura tc = new TelaDeCaptura();
+        tc.setVisible(true);
+
     }
 
     /**
