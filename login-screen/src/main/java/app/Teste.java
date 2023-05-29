@@ -4,6 +4,7 @@
  */
 package app;
 
+import inovacao.TesteInovacao;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,11 +14,16 @@ import java.util.TimerTask;
  */
 public class Teste {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         InserirMetrica im = new InserirMetrica();
         InfoPc infoPc = new InfoPc();
         inovacao.Inovacao in = new inovacao.Inovacao();
         
+        
+//        TesteInovacao.main();
+        
+//        System.out.println(in.verificarData());
+            in.reiniciar();
 //        System.out.println(in.fkEmpresa()); 
 //        System.out.println(in.valorParametro());
 //        System.out.println(in.verificarNecessidade());

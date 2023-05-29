@@ -36,7 +36,7 @@ public class TesteInovacao {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
 
         ProcessBuilder builder = new ProcessBuilder();

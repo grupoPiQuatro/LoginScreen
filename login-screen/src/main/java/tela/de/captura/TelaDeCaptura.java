@@ -33,7 +33,6 @@ public class TelaDeCaptura extends javax.swing.JFrame {
      * Creates new form TelaDeCaptura
      */
     public TelaDeCaptura() {  
-        jToggleButton1.setVisible(false);
         initComponents();
         setLocation(850, 500);
         
@@ -253,12 +252,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     }
     
        
-   public void reiniciar(){
-       Inovacao i = new inovacao.Inovacao();
-       if(i.verificarNecessidade()){
-           
-       }
-   }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelMinimazingButton;
