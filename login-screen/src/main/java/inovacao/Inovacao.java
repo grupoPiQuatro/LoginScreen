@@ -100,17 +100,27 @@ public class Inovacao {
     }
 
     public void reiniciar() throws InterruptedException {
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
+        InfoPc infoPc = new InfoPc();
+        String hostname = infoPc.hostName();
 
         String resposta;
         if (verificarData() && verificarRam()) {
             System.out.println("Reiniciar o computador agora ?");
             resposta = scan.nextLine();
             if (resposta.equalsIgnoreCase("sim")) {
+                con.update("update [dbo].[historicoReiniciar] "
+                        + "set tempoReiniciar = 0 "
+                        + "where fkComputador = ?;", hostname);
                 TesteInovacao.main();
             } else {
                 System.out.println("O computador reiniciara em 10 minutos !");
                 TimeUnit.SECONDS.sleep(600);
+                con.update("update [dbo].[historicoReiniciar] "
+                        + "set tempoReiniciar = 0 "
+                        + "where fkComputador = ?;", hostname);
                 TesteInovacao.main();
             }
         } else {

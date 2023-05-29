@@ -5,8 +5,11 @@
 package app;
 
 import inovacao.TesteInovacao;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.springframework.jdbc.core.JdbcTemplate;
+import sql.Conection;
 
 /**
  *
@@ -18,12 +21,17 @@ public class Teste {
         InserirMetrica im = new InserirMetrica();
         InfoPc infoPc = new InfoPc();
         inovacao.Inovacao in = new inovacao.Inovacao();
-        
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        Scanner scan = new Scanner(System.in);
+        String hostname = infoPc.hostName();
         
 //        TesteInovacao.main();
-        
+//         con.update("update [dbo].[historicoReiniciar] "
+//                        + "set tempoReiniciar = 0 "
+//                        + "where fkComputador = ?;", hostname);
 //        System.out.println(in.verificarData());
-            in.reiniciar();
+//            in.reiniciar();
 //        System.out.println(in.fkEmpresa()); 
 //        System.out.println(in.valorParametro());
 //        System.out.println(in.verificarNecessidade());
