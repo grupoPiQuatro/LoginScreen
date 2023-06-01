@@ -36,6 +36,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         initComponents();
         setLocation(850, 500);
         
+//        jToggleButton1.setVisible(false);
         exibirDados();
     }
 
@@ -250,6 +251,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
 //            }
 //        }, 0, 120000);
     }
+ 
     
        
 

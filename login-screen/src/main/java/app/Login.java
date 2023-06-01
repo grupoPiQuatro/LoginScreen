@@ -280,7 +280,7 @@ public class Login extends javax.swing.JFrame {
 //            textAlert.setText("Usuário encontrado");
             Looca looca = new Looca(user);
            
-            this.dispose();
+            this.setVisible(false);
             looca.setVisible(true);
            
         }else{

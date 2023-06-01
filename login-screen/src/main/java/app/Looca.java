@@ -29,7 +29,7 @@ import tela.de.captura.TelaDeCaptura;
 public class Looca extends javax.swing.JFrame {
 
     private List<UserLogin> user;
-
+    
     public Looca(List<UserLogin> user) throws IOException {
 
         this.user = user;
@@ -49,10 +49,10 @@ public class Looca extends javax.swing.JFrame {
 
         verificarPc();
     }
-
-    private Looca() {
-        throw new UnsupportedOperationException("Necessita de lista."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public Looca() {
     }
+
 
     public void verificarPc() throws IOException {
         InserirMetrica im = new InserirMetrica();
@@ -81,10 +81,13 @@ public class Looca extends javax.swing.JFrame {
 
         if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
             mensagemPc.setText("Computador já cadastrado");
-            this.dispose();
+            
             TelaDeCaptura tc = new TelaDeCaptura();
             tc.setVisible(true);
-
+            
+            this.dispose();
+            this.setVisible(false);
+           
         } else {
             mensagemPc.setText("Computador não cadastrado");
             localidade.setVisible(true);
@@ -444,7 +447,7 @@ public class Looca extends javax.swing.JFrame {
         btnConfirmar.setVisible(false);
         mensagemPc.setText("Computador cadastrado!");
 
-        this.dispose();
+        this.setVisible(false);
         TelaDeCaptura tc = new TelaDeCaptura();
         tc.setVisible(true);
 

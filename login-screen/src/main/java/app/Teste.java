@@ -5,9 +5,11 @@
 package app;
 
 import inovacao.TesteInovacao;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sql.Conection;
 
@@ -17,15 +19,22 @@ import sql.Conection;
  */
 public class Teste {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         InserirMetrica im = new InserirMetrica();
         InfoPc infoPc = new InfoPc();
         inovacao.Inovacao in = new inovacao.Inovacao();
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
-        String hostname = infoPc.hostName();
+//        String hostname = infoPc.hostName();
         
+            JSONObject json = new JSONObject();
+            
+            json.put("text", "Mega teste");
+            
+            slack.Slack.sendMessage(json);
+
+
 //        TesteInovacao.main();
 //         con.update("update [dbo].[historicoReiniciar] "
 //                        + "set tempoReiniciar = 0 "
