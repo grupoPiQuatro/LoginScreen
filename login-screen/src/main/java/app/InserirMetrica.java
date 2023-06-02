@@ -41,8 +41,11 @@ public class InserirMetrica {
 
         Double response = Math.floor(((l / (1024 * 1024 * 1024))) * 100) / 100;
         Double response1 = Math.floor(((g / (1024 * 1024 * 1024))) * 100) / 100;
-
-        if (response1 < 256) {
+        
+        
+        if(response1 < 100){
+           response1 = 30.0; 
+        } else if (response1 < 256) {
             response1 = 256.0;
         } else if (response1 < 512) {
             response1 = 512.0;

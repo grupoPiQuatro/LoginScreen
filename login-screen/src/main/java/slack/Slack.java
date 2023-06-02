@@ -16,21 +16,37 @@ import org.json.JSONObject;
  * @author faculdade
  */
 public class Slack {
-    
+
     private static HttpClient client = HttpClient.newHttpClient();
-    private static final String url = "https://hooks.slack.com/services/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";
-    
-    public static void sendMessage(JSONObject content) throws IOException, InterruptedException{
-        
+    private static final String url
+            = "https://hooks.slack.com/services/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";
+    private static final String url2 = 
+            "https://hooks.slack.com/services/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";
+
+    public static void sendMessage(JSONObject content) throws IOException, InterruptedException {
+
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .header("accept", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
                 .build();
-        
+
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        
+
         System.out.println(String.format("Status: %s", response.statusCode()));
         System.out.println(String.format("Status: %s", response.body()));
     }
-        
+    
+        public static void sendMessage2(JSONObject content) throws IOException, InterruptedException {
+
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url2))
+                .header("accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(String.format("Status: %s", response.statusCode()));
+        System.out.println(String.format("Status: %s", response.body()));
+    }
+
 }

@@ -9,11 +9,13 @@ import models.Componente;
 import sql.Conection;
 import app.InfoPc;
 import app.InserirMetrica;
+import java.io.IOException;
 import models.Metrica;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import models.HistoricoReiniciar;
+import org.json.JSONObject;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -27,6 +29,21 @@ public class Inovacao {
 
     public Inovacao() {
         this.looca = new Looca();
+    }
+
+    public String setor() {
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        InfoPc infoPc = new InfoPc();
+
+        String hostname = infoPc.hostName();
+
+        return con.queryForObject(
+                "select setor from computador "
+                + "join [dbo].[localizacao] on fkLocalizacao = idLocalizacao"
+                + "where hostname = ?;",
+                String.class, hostname);
+
     }
 
     public Integer fkEmpresa() {
@@ -99,15 +116,22 @@ public class Inovacao {
         return response;
     }
 
-    public void reiniciar() throws InterruptedException {
+    public void reiniciar() throws InterruptedException, IOException {
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
         InfoPc infoPc = new InfoPc();
         String hostname = infoPc.hostName();
+        String teste = "ferrou";
 
         String resposta;
         if (verificarData() && verificarRam()) {
+            JSONObject json = new JSONObject();
+            json.put("text", "Computador Reiniciar\n"
+                    + "Setor:\n" + teste
+                    + "Hostname:" + hostname);
+
+            slack.Slack.sendMessage(json);
             System.out.println("Reiniciar o computador agora ?");
             resposta = scan.nextLine();
             if (resposta.equalsIgnoreCase("sim")) {

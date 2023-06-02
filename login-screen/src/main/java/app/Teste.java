@@ -26,14 +26,19 @@ public class Teste {
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
-//        String hostname = infoPc.hostName();
-        
-            JSONObject json = new JSONObject();
-            
-            json.put("text", "Mega teste");
-            
-            slack.Slack.sendMessage(json);
+        String hostname = infoPc.hostName();
 
+        System.out.println(in.setor());
+        
+        
+//        JSONObject json = new JSONObject();
+//        JSONObject json2 = new JSONObject();
+//
+//        json.put("text", "Teste dois canais - general e o hostname é :" + hostname);
+//        json2.put("text", "Teste dois canais - monitoramento de hardware");
+// 
+//        slack.Slack.sendMessage(json);
+//        slack.Slack.sendMessage2(json2);
 
 //        TesteInovacao.main();
 //         con.update("update [dbo].[historicoReiniciar] "
