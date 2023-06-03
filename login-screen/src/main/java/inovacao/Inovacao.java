@@ -109,7 +109,7 @@ public class Inovacao {
             response = true;
         }
 
-        if (hr.size() > 0 && temp >= 5) {
+        if (hr.size() > 0 && temp >= 5 ) {
             response = true;
         }
 
@@ -125,7 +125,7 @@ public class Inovacao {
         String teste = "ferrou";
 
         String resposta;
-        if (verificarData() && verificarRam()) {
+        if (verificarData()) {
             JSONObject json = new JSONObject();
             json.put("text", "Computador Reiniciar\n"
                     + "Setor:\n" + teste

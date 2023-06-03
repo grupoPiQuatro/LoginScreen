@@ -13,6 +13,7 @@ import com.github.britooo.looca.api.group.processador.ProcessadorCacheLoader;
 import java.io.IOException;
 import java.util.List;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -184,8 +185,11 @@ public class InserirMetrica {
                 + "where cp.fkTipo in (4,5) and c.fkComputador = ?;", Integer.class, hostname);
     }
 
-    public String inserirMetrica() {
+    public List<String> inserirMetrica() {
         InfoPc ip = new InfoPc();
+        
+        List<String> testList = new ArrayList();
+        
         
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
@@ -204,28 +208,28 @@ public class InserirMetrica {
                 Double disco = (discoAtual/discoTotal)*100;
 
 
-                int azurePing = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede());
-                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", ram, fkConfigRam());
-                int azureCpu = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu());
-                int azureArmazenamento = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento());
+                int azurePing = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',CONVERT(VARCHAR, DATEADD(HOUR, -3, GETDATE()), 120),?)", rede, fkConfigRede());
+                int azureRam = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',CONVERT(VARCHAR, DATEADD(HOUR, -3, GETDATE()), 120),?)", ram, fkConfigRam());
+                int azureCpu = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',CONVERT(VARCHAR, DATEADD(HOUR, -3, GETDATE()), 120),?)", cpu, fkConfigCpu());
+                int azureArmazenamento = con.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',CONVERT(VARCHAR, DATEADD(HOUR, -3, GETDATE()), 120),?)", disco, fkConfigArmazenamento());
 
                 int pingLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'ms',current_timestamp,?)", rede, fkConfigRede2());
                 int ramLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", ram, fkConfigRam2());
                 int cpuLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", cpu, fkConfigCpu2());
-                int armazenamentoLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'gb',current_timestamp,?)", disco, fkConfigArmazenamento2());
+                int armazenamentoLocal = con2.update("insert into Metrica (valor, unidade,dtCaptura,fkConfig) values(?,'%',current_timestamp,?)", disco, fkConfigArmazenamento2());
+                testList.add(0,String.format("%d ms", rede));
+                testList.add(1,String.format("%.2f %% RAM", ram));
+                testList.add(2,String.format("%.2f %% CPU", cpu));
+                testList.add(3,String.format("%.2f %% Dico", disco));
                 System.out.println("ok");
-        return impressao(rede, ram, cpu, disco);
+                
+        return testList;
         
     }
     
     public String impressao(Long rede, Double ram, Double cpu, Double disco){
         
-        String response = String.format("""
-                                        %d MS | 
-                                        %.2f %% RAM | 
-                                        %.2f %% CPU | 
-                                        %.2f GB Disco
-                                        """, rede,ram,cpu,disco);
+        String response = String.format("%d MS | \n%.2f %% RAM | \n%.2f %% CPU | \n %.2f %% Disco \n", rede,ram,cpu,disco);
         
         return response ;
     }

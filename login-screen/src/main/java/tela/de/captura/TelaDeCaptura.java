@@ -34,7 +34,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
      */
     public TelaDeCaptura() {  
         initComponents();
-        setLocation(850, 500);
+        setLocation(850, 450);
         
 //        jToggleButton1.setVisible(false);
         exibirDados();
@@ -52,10 +52,12 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jPanelBackground = new javax.swing.JPanel();
         jPanelDataScreen = new javax.swing.JPanel();
         jLabelTextData = new javax.swing.JLabel();
+        jLabelTextData1 = new javax.swing.JLabel();
+        jLabelTextData2 = new javax.swing.JLabel();
+        jLabelTextData3 = new javax.swing.JLabel();
         jLabelTitle = new javax.swing.JLabel();
         jLabelXbutton = new javax.swing.JLabel();
         jLabelMinimazingButton = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -69,21 +71,46 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jLabelTextData.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabelTextData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jLabelTextData1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabelTextData1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabelTextData1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabelTextData2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabelTextData2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabelTextData2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabelTextData3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabelTextData3.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabelTextData3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanelDataScreenLayout = new javax.swing.GroupLayout(jPanelDataScreen);
         jPanelDataScreen.setLayout(jPanelDataScreenLayout);
         jPanelDataScreenLayout.setHorizontalGroup(
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDataScreenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTextData, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTextData, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTextData1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTextData2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTextData3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanelDataScreenLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabelTextData, jLabelTextData1, jLabelTextData2, jLabelTextData3});
+
         jPanelDataScreenLayout.setVerticalGroup(
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDataScreenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTextData, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabelTextData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTextData1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTextData2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTextData3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jLabelTitle.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
@@ -112,13 +139,6 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("isso é um botao");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelBackgroundLayout = new javax.swing.GroupLayout(jPanelBackground);
         jPanelBackground.setLayout(jPanelBackgroundLayout);
         jPanelBackgroundLayout.setHorizontalGroup(
@@ -140,10 +160,6 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelXbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jToggleButton1)
-                .addGap(159, 159, 159))
         );
         jPanelBackgroundLayout.setVerticalGroup(
             jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,12 +173,10 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                 .addComponent(jLabelTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton1)
-                .addContainerGap())
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanelBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, -1));
+        getContentPane().add(jPanelBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -187,10 +201,6 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             frame.setExtendedState(Frame.ICONIFIED);
         }
     }//GEN-LAST:event_jLabelMinimazingButtonMouseClicked
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,8 +248,21 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         new Timer().scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
-                String insercao = im.inserirMetrica();;
-                jLabelTextData.setText(insercao);
+                
+                List teste = im.inserirMetrica();
+                
+                String insert1 = teste.get(0).toString();
+                String insert2 = teste.get(1).toString();
+                String insert3 = teste.get(2).toString();
+                String insert4 = teste.get(3).toString();
+                
+                jLabelTextData.setText(insert1);
+                jLabelTextData1.setText(insert2);
+                jLabelTextData2.setText(insert3);
+                jLabelTextData3.setText(insert4);
+                
+               // String insercao = im.inserirMetrica();;
+                //  jLabelTextData.setText(insercao);
                 
             }
         }, 0, 10000);
@@ -259,10 +282,12 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelMinimazingButton;
     private javax.swing.JLabel jLabelTextData;
+    private javax.swing.JLabel jLabelTextData1;
+    private javax.swing.JLabel jLabelTextData2;
+    private javax.swing.JLabel jLabelTextData3;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelXbutton;
     private javax.swing.JPanel jPanelBackground;
     private javax.swing.JPanel jPanelDataScreen;
-    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
