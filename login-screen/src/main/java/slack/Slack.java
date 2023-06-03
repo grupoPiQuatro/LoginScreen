@@ -10,16 +10,26 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.json.JSONObject;
+import org.springframework.jdbc.core.JdbcTemplate;
+import sql.Conection;
 
 /**
  *
  * @author faculdade
  */
 public class Slack {
+    
+    public static final String linkChatMonitoramento(){
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        String response = con.queryForObject("select link from Slack where id = 1", String.class);
+        
+        return response;
+    }
 
     private static HttpClient client = HttpClient.newHttpClient();
     private static final String url
-            = "https://hooks.slack.com/services/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";
+            = linkChatMonitoramento();
     private static final String url2 = 
             "https://hooks.slack.com/services/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";
 

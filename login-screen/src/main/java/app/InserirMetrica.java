@@ -226,11 +226,5 @@ public class InserirMetrica {
         return testList;
         
     }
-    
-    public String impressao(Long rede, Double ram, Double cpu, Double disco){
-        
-        String response = String.format("%d MS | \n%.2f %% RAM | \n%.2f %% CPU | \n %.2f %% Disco \n", rede,ram,cpu,disco);
-        
-        return response ;
-    }
+   
 }

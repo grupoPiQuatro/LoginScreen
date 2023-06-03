@@ -28,18 +28,21 @@ public class Teste {
         JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
         String hostname = infoPc.hostName();
-        List teste = im.inserirMetrica();
-
+//        List teste = im.inserirMetrica();
+        
+        
+        
+    
 //        System.out.println(in.setor());
 //        String insert1 = teste.get(0).toString();
 //        System.out.println(insert1);
-//        JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
+        json.put("text", "Teste link na nuvem depois do push no git - general e o hostname é :" + hostname);
+        slack.Slack.sendMessage(json);
 //        JSONObject json2 = new JSONObject();
-//
-//        json.put("text", "Teste dois canais - general e o hostname é :" + hostname);
 //        json2.put("text", "Teste dois canais - monitoramento de hardware");
+//
 // 
-//        slack.Slack.sendMessage(json);
 //        slack.Slack.sendMessage2(json2);
 
 //        TesteInovacao.main();
