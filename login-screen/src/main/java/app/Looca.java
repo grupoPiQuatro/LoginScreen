@@ -29,7 +29,7 @@ import tela.de.captura.TelaDeCaptura;
 public class Looca extends javax.swing.JFrame {
 
     private List<UserLogin> user;
-    
+
     public Looca(List<UserLogin> user) throws IOException {
 
         this.user = user;
@@ -49,10 +49,9 @@ public class Looca extends javax.swing.JFrame {
 
         verificarPc();
     }
-    
+
     public Looca() {
     }
-
 
     public void verificarPc() throws IOException {
         InserirMetrica im = new InserirMetrica();
@@ -68,26 +67,38 @@ public class Looca extends javax.swing.JFrame {
 
         String hostName = infoPc.hostName();
 
+
+        List<Computador> listaComputadorLocal = con2.query("select hostname,"
+                + " sistemaOperacional, status from Computador where hostname = ?;",
+                new BeanPropertyRowMapper(Computador.class), hostName);
+
+        Integer computadorEncontradoLocal = listaComputadorLocal.size();
+
+        if (computadorEncontradoLocal < 1) {
+            cadastrarPcLocal();
+
+        }
+        
         List<Computador> listaComputador = con.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
-
+        
         List<Computador> listaComputador2 = con2.query("select hostname,"
                 + " sistemaOperacional, status from Computador where hostname = ?;",
                 new BeanPropertyRowMapper(Computador.class), hostName);
-
+        
         Integer computadorEncontrado = listaComputador.size();
         Integer computadorEncontrado2 = listaComputador2.size();
-
+        
         if (computadorEncontrado > 0 && computadorEncontrado2 > 0) {
             mensagemPc.setText("Computador já cadastrado");
-            
+
             TelaDeCaptura tc = new TelaDeCaptura();
             tc.setVisible(true);
-            
+
             this.dispose();
             this.setVisible(false);
-           
+
         } else {
             mensagemPc.setText("Computador não cadastrado");
             localidade.setVisible(true);
@@ -97,6 +108,109 @@ public class Looca extends javax.swing.JFrame {
             localidadeInput2.setVisible(true);
             btnConfirmar.setVisible(true);
         }
+
+    }
+
+    public void cadastrarPcLocal() {
+        ConectionMySql conexao2 = new ConectionMySql();
+        JdbcTemplate con2 = conexao2.getConnection();
+        InfoPc infoPc = new InfoPc();
+
+        String hostName = infoPc.hostName();
+        String mac = infoPc.mac();
+        String so = infoPc.sistemaOperacional();
+
+        Double redeMs = 1.0;
+        Double qtdRam = infoPc.qtdRam();
+        Double freqCpu = infoPc.frequenciaCpu();
+        Double qtdArmazenamento = infoPc.qtdArmazenamento();
+        Integer tipoDisco = null;
+        tipoDisco = 4;
+        String status = "Operando";
+        String fkEmpresa = null;
+
+        for (UserLogin usuario : user) {
+            fkEmpresa = usuario.getFkEmpresa();
+        }
+
+        int linhaComponenteRede = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
+                redeMs,
+                "ms",
+                1
+        );
+
+        int linhaComponenteRam = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
+                qtdRam,
+                "gb",
+                2
+        );
+        int linhaComponenteCpu = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
+                freqCpu,
+                "hz",
+                3
+        );
+        int linhaComponenteDisco = con2.update("insert into Componente (numeroChave, unidadeMedida, fkTipo) values (?, ?, ?)",
+                qtdArmazenamento,
+                "gb",
+                tipoDisco
+        );
+
+        int linhaLocalizacao2 = con2.update("insert into Localizacao (setor) values ('setor local')"
+        );
+
+        int inserirPc = con2.update("insert into Computador values (?, ?, ?, ?, 1, ?)",
+                hostName,
+                status,
+                so,
+                mac,
+                fkEmpresa
+        );
+
+        // associacao config
+        List<Componente> componentesLocal = con2.query("select * from Componente;",
+                new BeanPropertyRowMapper(Componente.class));
+
+        // LOCAL
+        Integer idRede2 = 0;
+        for (Componente comp : componentesLocal) {
+            if (comp.getFkTipo() == 1) {
+                if (comp.getNumeroChave().equals(redeMs)) {
+                    idRede2 = comp.getIdComponente();
+                }
+            }
+        }
+
+        Integer idRam2 = 0;
+        for (Componente comp : componentesLocal) {
+            if (comp.getFkTipo() == 2) {
+                if (comp.getNumeroChave().equals(qtdRam)) {
+                    idRam2 = comp.getIdComponente();
+                }
+            }
+        }
+
+        Integer idCpu2 = 0;
+        for (Componente comp : componentesLocal) {
+            if (comp.getFkTipo() == 3) {
+                if (comp.getNumeroChave().equals(freqCpu)) {
+                    idCpu2 = comp.getIdComponente();
+                }
+            }
+        }
+        Integer idArmazenamento2 = 0;
+        for (Componente comp : componentesLocal) {
+            if ((comp.getFkTipo() == 4) || (comp.getFkTipo() == 5)) {
+                if (comp.getNumeroChave().equals(qtdArmazenamento)) {
+                    idArmazenamento2 = comp.getIdComponente();
+                }
+            }
+        }
+
+        int associarRede2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede2);
+        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam2);
+        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu2);
+        int associarArmazenamento2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idArmazenamento2);
+        System.out.println("pc cadastrado local");
     }
 
     public void cadastrarPc(String setor, String discoTipo) throws IOException {
@@ -427,16 +541,16 @@ public class Looca extends javax.swing.JFrame {
             }
         }
 
+        //AZURE
         int associarRede = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede);
-        int associarRede2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede2);
-
         int associarRam = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam);
-        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam2);
-
         int associarCpu = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu);
-        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu2);
-
         int associarArmazenamento = con.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idArmazenamento);
+
+        //LOCAL
+        int associarRede2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRede2);
+        int associarRam2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idRam2);
+        int associarCpu2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idCpu2);
         int associarArmazenamento2 = con2.update("insert into Config (fkComputador, fkComponente) values (?,?)", hostName, idArmazenamento2);
 
         localidade.setVisible(false);
