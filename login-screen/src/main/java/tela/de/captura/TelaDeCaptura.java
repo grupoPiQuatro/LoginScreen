@@ -4,6 +4,7 @@
  */
 package tela.de.captura;
 
+import app.Alerta;
 import app.InfoPc;
 import inovacao.Inovacao;
 import app.InserirMetrica;
@@ -67,6 +68,19 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+            }
+        }, 0, 10000);
+        
+         new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Alerta alert = new Alerta();
+                
+                alert.alertaRede();
+                alert.alertaRam();
+                alert.alertaCpu();
+                alert.alertaMemoria();
 
             }
         }, 0, 10000);

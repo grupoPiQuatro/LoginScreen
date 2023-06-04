@@ -28,12 +28,17 @@ public class Teste {
         JdbcTemplate con = conexao.getConnection();
         Scanner scan = new Scanner(System.in);
         String hostname = infoPc.hostName();
+        Alerta al = new Alerta();
+        
+        System.out.println(al.parametroRedeAmarelo());
+        System.out.println(al.parametroRedeVermelho());
+        al.alertaRede();
 //        List teste = im.inserirMetrica();
         
 //        System.out.println(in.setor());
         
-        System.out.println(hostname);
-    
+//        System.out.println(hostname);
+//    
 //        System.out.println(in.setor());
 //        String insert1 = teste.get(0).toString();
 //        System.out.println(insert1);
