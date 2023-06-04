@@ -4,6 +4,8 @@
  */
 package tela.de.captura;
 
+import app.InfoPc;
+import inovacao.Inovacao;
 import app.InserirMetrica;
 import app.LogGenerator;
 import app.Looca;
@@ -17,11 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import models.UserLogin;
+import org.json.JSONObject;
+import org.springframework.jdbc.core.JdbcTemplate;
+import sql.Conection;
 
 /**
  *
@@ -32,12 +38,39 @@ public class TelaDeCaptura extends javax.swing.JFrame {
     /**
      * Creates new form TelaDeCaptura
      */
-    public TelaDeCaptura() {  
+    public TelaDeCaptura() {
+        Inovacao in = new Inovacao();
         initComponents();
         setLocation(850, 450);
-        
-//        jToggleButton1.setVisible(false);
-        exibirDados();
+
+        jButtonCancel.setVisible(false);
+        jButtonRebootNow.setVisible(false);
+        jButtonRebootTen.setVisible(false);
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                exibirDados();
+            }
+        }, 0, 10000);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                try {
+                    if (in.verificarData()) {
+                        exibirReinicio();
+                    } else {
+                        jPanelDataScreen.setVisible(true);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }, 0, 180000);
+
     }
 
     /**
@@ -58,6 +91,9 @@ public class TelaDeCaptura extends javax.swing.JFrame {
         jLabelTitle = new javax.swing.JLabel();
         jLabelXbutton = new javax.swing.JLabel();
         jLabelMinimazingButton = new javax.swing.JLabel();
+        jButtonRebootNow = new javax.swing.JButton();
+        jButtonRebootTen = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -89,16 +125,13 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDataScreenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTextData, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTextData1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTextData2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTextData3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabelTextData1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(jLabelTextData2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelTextData3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelTextData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jPanelDataScreenLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabelTextData, jLabelTextData1, jLabelTextData2, jLabelTextData3});
-
         jPanelDataScreenLayout.setVerticalGroup(
             jPanelDataScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDataScreenLayout.createSequentialGroup()
@@ -139,27 +172,57 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             }
         });
 
+        jButtonRebootNow.setBackground(new java.awt.Color(0, 0, 0));
+        jButtonRebootNow.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonRebootNow.setText("REINICIAR");
+        jButtonRebootNow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRebootNowActionPerformed(evt);
+            }
+        });
+
+        jButtonRebootTen.setBackground(new java.awt.Color(0, 0, 0));
+        jButtonRebootTen.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonRebootTen.setText("ADIAR");
+        jButtonRebootTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRebootTenActionPerformed(evt);
+            }
+        });
+
+        jButtonCancel.setBackground(new java.awt.Color(0, 0, 0));
+        jButtonCancel.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCancel.setText("CANCELAR");
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelBackgroundLayout = new javax.swing.GroupLayout(jPanelBackground);
         jPanelBackground.setLayout(jPanelBackgroundLayout);
         jPanelBackgroundLayout.setHorizontalGroup(
             jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBackgroundLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelBackgroundLayout.createSequentialGroup()
-                        .addGroup(jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelBackgroundLayout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBackgroundLayout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jLabelTitle)))
-                        .addGap(0, 16, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabelMinimazingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelXbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jLabelXbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
+                        .addComponent(jLabelTitle)
+                        .addGap(76, 76, 76))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBackgroundLayout.createSequentialGroup()
+                .addGap(117, 117, 117)
+                .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonRebootTen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonRebootNow, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanelBackgroundLayout.setVerticalGroup(
             jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,10 +234,21 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                         .addComponent(jLabelMinimazingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelBackgroundLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelDataScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelBackgroundLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jButtonRebootNow, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonRebootTen, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
+
+        jButtonRebootNow.getAccessibleContext().setAccessibleDescription("");
 
         getContentPane().add(jPanelBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 250));
 
@@ -201,6 +275,93 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             frame.setExtendedState(Frame.ICONIFIED);
         }
     }//GEN-LAST:event_jLabelMinimazingButtonMouseClicked
+
+    private void jButtonRebootNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRebootNowActionPerformed
+        // TODO add your handling code here
+        jButtonCancel.setVisible(false);
+        jButtonRebootNow.setVisible(false);
+        jButtonRebootTen.setVisible(false);
+        jPanelDataScreen.setVisible(true);
+
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        InfoPc infoPc = new InfoPc();
+        Inovacao in = new Inovacao();
+        String setor = in.setor();
+        String hostname = infoPc.hostName();
+
+        con.update("update [dbo].[historicoReiniciar] "
+                + "set tempoReiniciar = 0 "
+                + "where fkComputador = ?;", hostname);
+
+        JSONObject json = new JSONObject();
+        json.put("text", "Reinicio direto realizado \n"
+                + "Hostname:" + hostname + "\n"
+                + "Setor:" + setor);
+        try {
+            slack.Slack.sendMessage(json);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inovacao.TesteInovacao.main();
+    }//GEN-LAST:event_jButtonRebootNowActionPerformed
+
+    private void jButtonRebootTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRebootTenActionPerformed
+        try {
+            // TODO add your handling code here:
+            jButtonCancel.setVisible(false);
+            jButtonRebootNow.setVisible(false);
+            jButtonRebootTen.setVisible(false);
+            jPanelDataScreen.setVisible(true);
+
+            TimeUnit.SECONDS.sleep(600);
+
+            Conection conexao = new Conection();
+            JdbcTemplate con = conexao.getConnection();
+            InfoPc infoPc = new InfoPc();
+            String hostname = infoPc.hostName();
+            Inovacao in = new Inovacao();
+            String setor = in.setor();
+
+            JSONObject json = new JSONObject();
+            json.put("text", "Reinicio adiado realizado \n"
+                    + "Hostname:" + hostname + "\n"
+                    + "Setor:" + setor);
+
+            con.update("update [dbo].[historicoReiniciar] "
+                    + "set tempoReiniciar = 0 "
+                    + "where fkComputador = ?;", hostname);
+            inovacao.TesteInovacao.main();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonRebootTenActionPerformed
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        // TODO add your handling code here:
+        jButtonCancel.setVisible(false);
+        jButtonRebootNow.setVisible(false);
+        jButtonRebootTen.setVisible(false);
+        jPanelDataScreen.setVisible(true);
+
+        Conection conexao = new Conection();
+        JdbcTemplate con = conexao.getConnection();
+        InfoPc infoPc = new InfoPc();
+        String hostname = infoPc.hostName();
+        Inovacao in = new Inovacao();
+        String setor = in.setor();
+
+        JSONObject json = new JSONObject();
+        json.put("text", "Reinicio cancelado \n"
+                + "Hostname:" + hostname + "\n"
+                + "Setor:" + setor);
+
+        con.update("update [dbo].[historicoReiniciar] "
+                + "set tempoReiniciar = 0 "
+                + "where fkComputador = ?;", hostname);
+    }//GEN-LAST:event_jButtonCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,50 +397,47 @@ public class TelaDeCaptura extends javax.swing.JFrame {
             }
         });
     }
-    public void exibirDados(){
+
+    public void exibirDados() {
         try {
             LogGenerator.generateLog("Enviando dados...");
         } catch (IOException ex) {
             Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
         }
         InserirMetrica im = new InserirMetrica();
-        
-       
-        new Timer().scheduleAtFixedRate(new TimerTask() {
 
-            public void run() {
-                
-                List teste = im.inserirMetrica();
-                
-                String insert1 = teste.get(0).toString();
-                String insert2 = teste.get(1).toString();
-                String insert3 = teste.get(2).toString();
-                String insert4 = teste.get(3).toString();
-                
-                jLabelTextData.setText(insert1);
-                jLabelTextData1.setText(insert2);
-                jLabelTextData2.setText(insert3);
-                jLabelTextData3.setText(insert4);
-                
-               // String insercao = im.inserirMetrica();;
-                //  jLabelTextData.setText(insercao);
-                
-            }
-        }, 0, 10000);
-        
-//         new Timer().scheduleAtFixedRate(new TimerTask() {
-//
-//            public void run() {
-//                
-//            }
-//        }, 0, 120000);
+        List teste = im.inserirMetrica();
+
+        String insert1 = teste.get(0).toString();
+        String insert2 = teste.get(1).toString();
+        String insert3 = teste.get(2).toString();
+        String insert4 = teste.get(3).toString();
+
+        jLabelTextData.setText(insert1);
+        jLabelTextData1.setText(insert2);
+        jLabelTextData2.setText(insert3);
+        jLabelTextData3.setText(insert4);
     }
- 
-    
-       
 
-    
+    public void exibirReinicio() {
+        try {
+            LogGenerator.generateLog("Precisa reiniciar");
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.println("Deu o tempo");
+        jButtonCancel.setVisible(true);
+        jButtonRebootNow.setVisible(true);
+        jButtonRebootTen.setVisible(true);
+        jPanelDataScreen.setVisible(false);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonRebootNow;
+    private javax.swing.JButton jButtonRebootTen;
     private javax.swing.JLabel jLabelMinimazingButton;
     private javax.swing.JLabel jLabelTextData;
     private javax.swing.JLabel jLabelTextData1;

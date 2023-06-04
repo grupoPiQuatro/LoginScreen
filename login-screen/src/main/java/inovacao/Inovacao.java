@@ -41,7 +41,7 @@ public class Inovacao {
         return con.queryForObject(
                 "select setor from computador "
                 + "join [dbo].[localizacao] on fkLocalizacao = idLocalizacao"
-                + "where hostname = ?;",
+                + " where hostname = ?;",
                 String.class, hostname);
 
     }
@@ -83,7 +83,7 @@ public class Inovacao {
         return response;
     }
 
-    public Boolean verificarData() {
+    public Boolean verificarData() throws IOException, InterruptedException {
         Conection conexao = new Conection();
         JdbcTemplate con = conexao.getConnection();
         InfoPc infoPc = new InfoPc();
@@ -102,15 +102,23 @@ public class Inovacao {
         }
 
         if (hr.size() < 1 && verificarRam()) {
-            con.update("insert into [dbo].[historicoReiniciar]"
-                    + "(tempoReiniciar,dtCaptura,fkComputador) "
-                    + "values (5, CURRENT_TIMESTAMP, ?);", hostname);
+            con.update(" ", hostname);
 
             response = true;
         }
 
         if (hr.size() > 0 && temp >= 5 ) {
             response = true;
+        }
+        
+        if(response){
+            JSONObject json = new JSONObject();
+            String setor = setor();
+            json.put("text", "Computador Reiniciar\n"
+                    + "Setor:\n" + setor
+                    + "Hostname:" + hostname);
+
+            slack.Slack.sendMessage(json);
         }
 
         return response;
@@ -122,13 +130,13 @@ public class Inovacao {
         Scanner scan = new Scanner(System.in);
         InfoPc infoPc = new InfoPc();
         String hostname = infoPc.hostName();
-        String teste = "ferrou";
+        String setor = setor();
 
         String resposta;
         if (verificarData()) {
             JSONObject json = new JSONObject();
             json.put("text", "Computador Reiniciar\n"
-                    + "Setor:\n" + teste
+                    + "Setor:\n" + setor
                     + "Hostname:" + hostname);
 
             slack.Slack.sendMessage(json);

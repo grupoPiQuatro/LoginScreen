@@ -30,8 +30,9 @@ public class Teste {
         String hostname = infoPc.hostName();
 //        List teste = im.inserirMetrica();
         
+        System.out.println(in.setor());
         
-        
+//        System.out.println(hostname);
     
 //        System.out.println(in.setor());
 //        String insert1 = teste.get(0).toString();

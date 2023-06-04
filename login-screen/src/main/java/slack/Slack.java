@@ -30,8 +30,6 @@ public class Slack {
     private static HttpClient client = HttpClient.newHttpClient();
     private static final String url
             = linkChatMonitoramento();
-    private static final String url2 = 
-            "https://hooks.slack.com/services/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";
 
     public static void sendMessage(JSONObject content) throws IOException, InterruptedException {
 
@@ -46,17 +44,6 @@ public class Slack {
         System.out.println(String.format("Status: %s", response.body()));
     }
     
-        public static void sendMessage2(JSONObject content) throws IOException, InterruptedException {
 
-        HttpRequest request = HttpRequest.newBuilder(URI.create(url2))
-                .header("accept", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println(String.format("Status: %s", response.statusCode()));
-        System.out.println(String.format("Status: %s", response.body()));
-    }
 
 }
