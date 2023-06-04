@@ -68,7 +68,7 @@ public class Inovacao {
         JdbcTemplate con = conexao.getConnection();
         InserirMetrica im = new InserirMetrica();
 
-        List<Metrica> metrica = con.query("select top 18 * from Metrica where fkConfig = ? order by dtCaptura desc ;",
+        List<Metrica> metrica = con.query("select top 6 * from Metrica where fkConfig = ? order by dtCaptura desc ;",
                 new BeanPropertyRowMapper(Metrica.class), im.fkConfigRam());
 
         Boolean response = false;
@@ -102,8 +102,6 @@ public class Inovacao {
         }
 
         if (hr.size() < 1 && verificarRam()) {
-            con.update(" ", hostname);
-
             response = true;
         }
 
@@ -115,8 +113,8 @@ public class Inovacao {
             JSONObject json = new JSONObject();
             String setor = setor();
             json.put("text", "Computador Reiniciar\n"
-                    + "Setor:\n" + setor
-                    + "Hostname:" + hostname);
+                    + "\nSetor:" + setor
+                    + "\nHostname:" + hostname);
 
             slack.Slack.sendMessage(json);
         }

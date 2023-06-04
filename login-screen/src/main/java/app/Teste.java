@@ -30,16 +30,16 @@ public class Teste {
         String hostname = infoPc.hostName();
 //        List teste = im.inserirMetrica();
         
-        System.out.println(in.setor());
+//        System.out.println(in.setor());
         
-//        System.out.println(hostname);
+        System.out.println(hostname);
     
 //        System.out.println(in.setor());
 //        String insert1 = teste.get(0).toString();
 //        System.out.println(insert1);
-        JSONObject json = new JSONObject();
-        json.put("text", "Teste link na nuvem depois do push no git - general e o hostname é :" + hostname);
-        slack.Slack.sendMessage(json);
+//        JSONObject json = new JSONObject();
+//        json.put("text", "Teste link na nuvem depois do push no git e 12hrs - general e o hostname é :" + hostname);
+//        slack.Slack.sendMessage(json);
 //        JSONObject json2 = new JSONObject();
 //        json2.put("text", "Teste dois canais - monitoramento de hardware");
 //

@@ -69,7 +69,7 @@ public class TelaDeCaptura extends javax.swing.JFrame {
                 }
 
             }
-        }, 0, 180000);
+        }, 0, 10000);
 
     }
 
@@ -278,34 +278,37 @@ public class TelaDeCaptura extends javax.swing.JFrame {
 
     private void jButtonRebootNowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRebootNowActionPerformed
         // TODO add your handling code here
-        jButtonCancel.setVisible(false);
-        jButtonRebootNow.setVisible(false);
-        jButtonRebootTen.setVisible(false);
-        jPanelDataScreen.setVisible(true);
 
-        Conection conexao = new Conection();
-        JdbcTemplate con = conexao.getConnection();
-        InfoPc infoPc = new InfoPc();
-        Inovacao in = new Inovacao();
-        String setor = in.setor();
-        String hostname = infoPc.hostName();
-
-        con.update("update [dbo].[historicoReiniciar] "
-                + "set tempoReiniciar = 0 "
-                + "where fkComputador = ?;", hostname);
-
-        JSONObject json = new JSONObject();
-        json.put("text", "Reinicio direto realizado \n"
-                + "Hostname:" + hostname + "\n"
-                + "Setor:" + setor);
         try {
+            jButtonCancel.setVisible(false);
+            jButtonRebootNow.setVisible(false);
+            jButtonRebootTen.setVisible(false);
+            jPanelDataScreen.setVisible(true);
+
+            Conection conexao = new Conection();
+            JdbcTemplate con = conexao.getConnection();
+            InfoPc infoPc = new InfoPc();
+            Inovacao in = new Inovacao();
+            String setor = in.setor();
+            String hostname = infoPc.hostName();
+
+            con.update("update [dbo].[historicoReiniciar] "
+                    + "set tempoReiniciar = 0 "
+                    + "where fkComputador = ?;", hostname);
+
+            JSONObject json = new JSONObject();
+            json.put("text", "Reinicio direto realizado \n"
+                    + "\nHostname:" + hostname + "\n"
+                    + "Setor:" + setor);
+
             slack.Slack.sendMessage(json);
+
+            inovacao.TesteInovacao.main();
         } catch (IOException ex) {
             Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
         }
-        inovacao.TesteInovacao.main();
     }//GEN-LAST:event_jButtonRebootNowActionPerformed
 
     private void jButtonRebootTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRebootTenActionPerformed
@@ -327,40 +330,55 @@ public class TelaDeCaptura extends javax.swing.JFrame {
 
             JSONObject json = new JSONObject();
             json.put("text", "Reinicio adiado realizado \n"
-                    + "Hostname:" + hostname + "\n"
+                    + "\nHostname:" + hostname + "\n"
                     + "Setor:" + setor);
 
             con.update("update [dbo].[historicoReiniciar] "
                     + "set tempoReiniciar = 0 "
                     + "where fkComputador = ?;", hostname);
+
+            slack.Slack.sendMessage(json);
+
             inovacao.TesteInovacao.main();
         } catch (InterruptedException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonRebootTenActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         // TODO add your handling code here:
-        jButtonCancel.setVisible(false);
-        jButtonRebootNow.setVisible(false);
-        jButtonRebootTen.setVisible(false);
-        jPanelDataScreen.setVisible(true);
 
-        Conection conexao = new Conection();
-        JdbcTemplate con = conexao.getConnection();
-        InfoPc infoPc = new InfoPc();
-        String hostname = infoPc.hostName();
-        Inovacao in = new Inovacao();
-        String setor = in.setor();
+        try {
+            jButtonCancel.setVisible(false);
+            jButtonRebootNow.setVisible(false);
+            jButtonRebootTen.setVisible(false);
+            jPanelDataScreen.setVisible(true);
 
-        JSONObject json = new JSONObject();
-        json.put("text", "Reinicio cancelado \n"
-                + "Hostname:" + hostname + "\n"
-                + "Setor:" + setor);
+            Conection conexao = new Conection();
+            JdbcTemplate con = conexao.getConnection();
+            InfoPc infoPc = new InfoPc();
+            String hostname = infoPc.hostName();
+            Inovacao in = new Inovacao();
+            String setor = in.setor();
 
-        con.update("update [dbo].[historicoReiniciar] "
-                + "set tempoReiniciar = 0 "
-                + "where fkComputador = ?;", hostname);
+            JSONObject json = new JSONObject();
+            json.put("text", "Reinicio cancelado \n"
+                    + "\nHostname:" + hostname + "\n"
+                    + "Setor:" + setor);
+
+            slack.Slack.sendMessage(json);
+
+            con.update("update [dbo].[historicoReiniciar] "
+                    + "set tempoReiniciar = 0 "
+                    + "where fkComputador = ?;", hostname);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TelaDeCaptura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     /**
