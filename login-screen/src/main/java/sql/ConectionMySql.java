@@ -21,7 +21,7 @@ public class ConectionMySql {
 
         dataSource​.setUsername("root");
 
-        dataSource​.setPassword("#Gf44659454851");
+        dataSource​.setPassword("urubu100");
 
         this.connectionMySql = new JdbcTemplate(dataSource);
     }

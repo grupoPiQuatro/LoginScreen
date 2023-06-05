@@ -30,9 +30,11 @@ public class Teste {
         String hostname = infoPc.hostName();
         Alerta al = new Alerta();
         
-        System.out.println(al.parametroRedeAmarelo());
-        System.out.println(al.parametroRedeVermelho());
-        al.alertaRede();
+//        System.out.println(al.parametroRedeAmarelo());;
+//        System.out.println(al.parametroRedeVermelho());
+//        al.alertaRede();
+        
+        System.out.println(im.fkConfigRede());
 //        List teste = im.inserirMetrica();
         
 //        System.out.println(in.setor());
