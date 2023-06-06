@@ -4,4 +4,4 @@ STRING="Hello World!"
 
 echo "Hello World!"
 
-reboot
+sudo shutdown -r now
