@@ -112,7 +112,11 @@ public class InfoPc {
         
         Long valorReal = qtdArmazenamentoBytes / (1024 * 1024 * 1024);
         
-        if (valorReal < 256) {
+        if (valorReal < 50) {
+            return 30.0;
+        } else if (valorReal < 120) {
+            return 120.0;
+        } else if (valorReal < 256) {
             return 256.0;
         } else if (valorReal < 512) {
             return 512.0;
